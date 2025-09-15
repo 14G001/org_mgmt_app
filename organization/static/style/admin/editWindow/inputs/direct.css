@@ -1,0 +1,155 @@
+.update_item_window_form_inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.update_item_window_form_submit,
+.input_related_item_button,
+.input_value_container,
+.create_new_item_button {
+    border-radius: 4px;
+    background-color: rgb(64, 216, 233);
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 10px;
+    font-size: 30px;
+    padding: 0 4px;
+}
+.update_item_window_form_submit_container {
+    height: 100%;
+    display: flex;
+    margin-top: auto;
+    justify-content: right;
+}
+.update_item_window_form_submit {
+    width: fit-content;
+    margin: 0 5% 5% 0;
+}
+.input_related_item_extra_options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 5%;
+}
+.create_new_item_section_container {
+    margin: 0 10px 10px 10px;
+    padding: 10px;
+}
+.create_new_item_section {
+    background-color: rgb(76, 226, 243);
+    border-radius: 8px;
+    margin: 10px;
+    padding: 0 0 6px 0;
+}
+.create_new_item_submit,
+.create_new_item_section_title_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 154, 221);
+    border-radius: 4px;
+}
+.create_new_item_section_title,
+.create_new_item_submit {
+    font-size: 24px;
+    color: white;
+    
+}
+.create_new_item_submit_container {
+    display: flex;
+    justify-content: center;
+}
+.create_new_item_submit {
+    width: fit-content;
+    padding: 2px 8px;
+}
+.create_new_item_section_inputs_container {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.create_new_item_section_inputs {
+    border-radius: 4px;
+    width: fit-content;
+}
+.create_new_item_button,
+.input_related_item_search_container {
+    margin: 4px 0;
+    padding: 0 4px;
+    font-size: 22px;
+    min-width: 40px;
+}
+.create_new_item_container,
+.input_related_item_search_container {
+    width: 40%;
+}
+.input_related_item_search {
+    width: 100%;
+    border-radius: 4px;
+}
+.create_new_item_button {
+    font-weight: 700;
+    color: black;
+}
+.input_related_item_container {
+    background-color: rgb(222, 222, 222);
+}
+.input_related_item_buttons_container {
+    background-color: rgb(197, 197, 197);
+    border-radius: 4px;
+}
+.input_value {
+    border-radius: 4px;
+    background-color: rgb(246, 246, 246);
+    margin: 2px 0;
+}
+.create_new_item_button {
+    width: auto;
+    background-color: rgb(33, 230, 42);
+}
+.create_new_item_container {
+    padding: 0 0 1px 0;
+}
+.input_related_item_selected {
+    border-radius: 4px;
+    background-color: rgb(156, 156, 156);
+    color: white;
+    width: fit-content;
+    margin: 4px;
+    padding: 0 8px;
+}
+
+
+.input_related_item_item_list {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    background-color: rgb(0, 208, 42);
+    font-size: 20px;
+}
+.input_related_item_item_list_item:hover {
+    background-color: rgb(0, 174, 35);
+    cursor: pointer;
+}
+.input_related_item_item_list_field_value {
+    display: flex;
+    justify-content: center;
+}
+.input_related_item_remove_selected_item_button {
+    width: fit-content;
+    background-color: #0000;
+    color: white;
+    border-radius: 4px;
+}
+.input_related_item_remove_selected_item_button:hover {
+    background-color: #0002;
+}
+.input_related_item_item_list_item_select_check_box {
+    display: flex;
+    justify-content: center;
+}

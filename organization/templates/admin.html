@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ONG Admin</title>
+        <!--Must contain from 140 to 160 characters:-->
+        <!--meta name="description" content=""-->
+        <!--link rel="icon" href="../global/rsc/platform/this.ico"-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        <meta http-equiv="Referrer-Policy" content="no-referrer">
+        <!--meta property="og:image" content="https://.../... .png"-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/normalize.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/header.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/admin/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/admin/editWindow/window.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/admin/editWindow/inputs/direct.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style/admin/editWindow/inputs/subItem.css' %}">
+    </head>
+    <body>
+        <header>
+            <div>
+                <h1>
+                    ONG Admin
+                </h1>
+            </div>
+            <div>
+                <p>
+                    Account: {{ user.username }}
+                </p>
+            </div>
+            <div>
+                <button id="logout_button">Log out</button>
+            </div>
+        </header>
+        <main id="main">
+            <div id="organization_elements">
+            </div>
+        </main>
+        <div id="error_container">
+            <p id="error_message">
+            </p>
+        </div>
+    </body>
+    <script type="module" src="{% static 'script/global/global.js' %}"></script>
+    <script type="module" src="{% static 'script/admin/main.js' %}"></script>
+</html>

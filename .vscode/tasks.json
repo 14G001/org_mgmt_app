@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "call env/Scripts/activate && python manage.py runserver 3000",
+            "problemMatcher": []
+        }, {
+            "label": "Rebuild Db",
+            "type": "shell",
+            "command": "rd /s /q .\\user\\migrations .\\organization\\migrations  && del db.sqlite3 && call env/Scripts/activate && python manage.py makemigrations user organization && python manage.py migrate",
+            "problemMatcher": []
+        }
+    ]
+}

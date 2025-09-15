@@ -1,0 +1,63 @@
+.window_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0,0,0,0.5);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.window_cancel_button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    color: white;
+    background-color: #0000;
+}
+.item_view_window,
+.confirmation_window,
+.window {
+    top: 0;
+    left: 0;
+    min-height: 80vh;
+    max-height: 80vh;
+    width: 80vw;
+    background-color: rgb(241, 241, 241);
+    margin: 10%;
+    padding: 4px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: scroll; /*browsers scrollbars are used to cause display errors and updating them logic options are usually low so the best option will be to create a custom scrollbar. */
+}
+.item_view_window,
+.confirmation_window {
+    min-height: auto;
+    max-height: auto;
+    width: fit-content;
+    height: fit-content;
+    font-size: 20px;
+}
+.view_value_container {
+    display: flex;
+    gap: 10px;
+}
+.item_view_window_title {
+    background-color: #0002;
+    text-align: center;
+}
+.item_view_window_close_button {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.confirmation_window_option_buttons_container {
+    display: flex;
+}

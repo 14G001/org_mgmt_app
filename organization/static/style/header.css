@@ -1,0 +1,15 @@
+:root {
+    --font-size: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-size);
+}
+
+h1 {
+    font-size: var(--font-size);
+    margin: 0;
+}

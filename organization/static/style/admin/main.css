@@ -1,0 +1,75 @@
+:root {
+    --item-info-bg-color: "lawngreen";
+    --item-info-bg-color-hover: "rgb(114, 229, 0)";
+}
+* {
+    font-family: Arial;
+}
+
+h2, h2 div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+h2 {
+    width: 100%;
+    justify-content: space-between;
+    cursor: pointer;
+}
+input {
+    border: none;
+}
+
+.org_elms_adm_item_addition_button {
+    font-family: Arial;
+    width: 100%;
+    font-weight: 900;
+    background-color: rgb(0, 255, 255);
+}
+.org_elms_adm_item_addition_button:hover {
+    background-color: rgb(0, 244, 244);
+}
+
+.org_elms_adm_items {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    background-color: lawngreen;
+}
+.org_elms_adm_items_fields_thead {
+    font-size: 20px;
+}
+.org_elms_adm_items_fields_tbody {
+    font-size: 18px;
+}
+.org_elm_item_field_value:hover {
+    cursor: pointer;
+}
+.item_edit_button:hover {
+    background-color: rgb(237, 241, 0);
+}
+.item_remove_button:hover {
+    background-color: rgb(224, 0, 0);
+}
+.org_elm_item_field_value {
+    height: 100%;
+    text-align: center;
+}
+.item_options {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    height: auto;
+    width: auto;
+}
+.item_edit_button {
+    background-color: rgb(255, 251, 0);
+    font-weight: 600;
+}
+.item_remove_button {
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    font-family: Arial;
+}

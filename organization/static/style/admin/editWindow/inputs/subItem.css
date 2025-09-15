@@ -1,0 +1,24 @@
+.create_elm-input_value_container {
+    display: flex;
+    font-size: 24px;
+    padding: 6px;
+    gap: 10px;
+    width: fit-content;
+}
+.create_elm-input_value {
+    border-radius: 4px;
+}
+
+/*
+.create_elm-input_related_item_button,
+.create_elm-input_value_container,
+.create_elm-create_new_item_button,
+.create_elm-input_related_item_extra_options,
+.create_elm-input_related_item_search_container,
+.create_elm-input_related_item_search,
+.create_elm-input_related_item_container,
+.create_elm-input_related_item_buttons_container,
+.create_elm-item_field_input_value,
+.create_elm-create_new_item_container,
+.create_elm-input_related_item_selected,
+*/
