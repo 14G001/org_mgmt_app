@@ -68,7 +68,7 @@ async function initItemManagementWindow(itemWindowInfo, itemTypesInfo, itemType,
     }
     const submitButtonContainer = createElement(itemWindow, "div", "update_item_window_form_submit_container");
     const submitButton = createElement(submitButtonContainer, "button", "update_item_window_form_submit");
-    createText(submitButton, "p", (defaultValues)?"Update":"Create");
+    createText(submitButton, "p", (defaultValues)?"Actualizar":"Crear");
     submitButton.onclick = async ()=>{
         if (defaultValues) {
             const result = await sendItemUpdateMessage(form, itemType, itemId);

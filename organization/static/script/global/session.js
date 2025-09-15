@@ -4,7 +4,7 @@ import { getUrlResource, getUrlResourceAndQParams } from "./utils/url.js";
 import { sendMessage } from "./app/messaging.js";
 
 function logoutAllTabs() {
-    const logout = localStorage.getItem("logout");
+    let logout = localStorage.getItem("logout");
     if (!logout) {
         logout = "0";
     }
