@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 
 # TODO: Unhardcode the following main user data:
-MAIN_USER_USERNAME = 'bwrXt1N481'
+MAIN_USER_EAV_USERNAME = 'bwrXt1N481' # Main user example app version username
 MAIN_USER = {
-    'username':MAIN_USER_USERNAME,
+    'username':MAIN_USER_EAV_USERNAME,
     'email':'bwrXt1N481@gmail.com',
     'password':'abc123',
 }
