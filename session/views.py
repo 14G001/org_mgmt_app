@@ -1,9 +1,10 @@
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from security.urls import is_url_secure
 from user.logged_in import is_user_logged_in
 from app.responses import ok, error
+from app.render import send_template
 import json
 
 class LoginView(View):
@@ -17,7 +18,7 @@ class LoginView(View):
     def get(self, request):
         if is_user_logged_in(request):
             return self.redirect_to_original_url(request)
-        return render(request, 'login.html')
+        return send_template(request, 'login.html')
     def post(self, request):
         if is_user_logged_in(request):
             return ok()
