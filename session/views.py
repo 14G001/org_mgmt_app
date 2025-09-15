@@ -5,6 +5,7 @@ from security.urls import is_url_secure
 from user.logged_in import is_user_logged_in
 from app.responses import ok, error
 from app.render import send_template
+from app.settings import APP_VERSION
 import json
 
 class LoginView(View):
@@ -35,5 +36,8 @@ class LoginView(View):
     
 class LogoutView(View):
     def post(self, request):
+        if (APP_VERSION == "example"
+            and not request.user.is_authenticated):
+            return error(500, "Example app version")
         logout(request) # Removes session from server
         return ok()
