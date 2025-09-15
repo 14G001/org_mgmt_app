@@ -23,14 +23,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    'iagoapps.pythonanywhere.com'
+    'iagoapps.pythonanywhere.com',
+    '127.0.0.1',
+    'localhost'
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://iagoapps.pythonanywhere.com"
 ]
+
+""" TODO: Uncomment the following:
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+"""
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,13 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-""" TODO: Uncomment the following:
-CSRF_COOKIE_HTTPONLY = True
-SESSION_COOKIE_HTTPONLY = True
-"""
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'app.urls'
 
