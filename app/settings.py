@@ -28,7 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'iagoapps.pythonanywhere.com'
 ]
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://iagoapps.pythonanywhere.com"
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
