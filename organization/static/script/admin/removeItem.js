@@ -8,7 +8,7 @@ export function getItemRemoveButtonAction(sectionInfo, itemId, itemStr, itemList
         const confirmationWindowInfo = createWindow("confirmation_window");
         const confirmationWindow = confirmationWindowInfo.element;
         const messageContainer = createElement(confirmationWindow, "div");
-        createText(messageContainer, "p", `Desea eliminar el ${sectionInfo["title"]["singular"].toLowerCase()}?`);
+        createText(messageContainer, "p", `Desea eliminar ${sectionInfo["title"]["singular"].toLowerCase()}?`);
         const itemDataContainer = createElement(confirmationWindow, "div");
         createText(itemDataContainer, "p", itemStr);
         const optionButtonsContainer = createElement(confirmationWindow, "div", "confirmation_window_option_buttons_container");
