@@ -3,7 +3,6 @@ from django.apps import apps
 from app.responses import error, ok
 from app.view import SecureView
 from app.settings import APP_VERSION
-from user.main_user import MAIN_USER_EAV_USERNAME
 from organization.elements.elements import get_org_elms_public_info, get_org_elms_public_info_str, get_org_elms_private_info, FIELD_PARAM_TYPE
 from organization.views.utils.list_item_fields import get_items_list, get_item_list_section
 import json
@@ -54,8 +53,7 @@ class ItemsSectionView(ItemTypeView):
     
 class CreateItemView(ItemTypeView):
     def post(self, request):
-        if (APP_VERSION == 'example'
-            and request.user.name == MAIN_USER_EAV_USERNAME):
+        if APP_VERSION == 'example':
             return ok()
         try:
             input_fields = get_input_field_values(self.item_type, request)
@@ -91,8 +89,7 @@ class ItemView(ItemTypeView):
         return ok(item_fields=item_fields)
 class UpdateItemView(ItemTypeView):
     def patch(self, request):
-        if (APP_VERSION == 'example'
-            and request.user.name == MAIN_USER_EAV_USERNAME):
+        if APP_VERSION == 'example':
             return ok()
         try:
             print('A')
@@ -108,8 +105,7 @@ class UpdateItemView(ItemTypeView):
             return error(409, str(e))
 class DeleteItemView(ItemTypeView):
     def delete(self, request):
-        if (APP_VERSION == 'example'
-            and request.user.name == MAIN_USER_EAV_USERNAME):
+        if APP_VERSION == 'example':
             return ok()
         try:
             self.item_model.objects.filter(id=request.GET.get("item_id")).delete()
