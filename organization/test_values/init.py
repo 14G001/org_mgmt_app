@@ -4,7 +4,7 @@ from organization.models import (Address, OrganizationBranch, PersonRoleType,
 from organization.test_values.utils import get_person_id
 from app.settings import ORG_MGMT_APP_EXAMPLE
 
-def create_models(app, model, records):
+def create_models(model, records):
     objects = [model(**record) for record in records]
     return model.objects.using(app).bulk_create(objects)
 
@@ -91,7 +91,7 @@ def init_organization_test_values(app):
     if PersonRoleType.objects.using(app).exists():
         return
     if app == ORG_MGMT_APP_EXAMPLE:
-        addresses = create_models(app, Address, [
+        addresses = create_models(Address, [
             {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
             {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
         ])
@@ -101,7 +101,7 @@ def init_organization_test_values(app):
     ])
     if app == ORG_MGMT_APP_EXAMPLE:
         persons = create_test_persons(app, person_role_type)
-        currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])
+        currency = create_models(Currency, [{"code":"USD"}, {"code":"ARS"}])
         create_test_money_donations(app, currency, persons)
         create_test_object_donations(app, persons)
         create_test_expenditures(app, currency)
