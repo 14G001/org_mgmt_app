@@ -43,7 +43,7 @@ def create_test_persons(app, person_role_type):
     create_models(app, PersonRole, person_roles)
     return persons
 
-def create_test_money_donations(currency, persons):
+def create_test_money_donations(app, currency, persons):
     money_donations = create_models(app, MoneyDonation, [
         {"person":persons[0], "currency":currency[0], "amount": 3000.00, "date":"2025-11-20"},
         {"person":persons[1], "currency":currency[1], "amount": 7000.00, "date":"2025-11-21"},
@@ -55,7 +55,7 @@ def create_test_money_donations(currency, persons):
 def create_test_object(object_type):
     _object = Object.objects.using(ORG_MGMT_APP_EXAMPLE).create(type=object_type)
     return _object
-def create_test_object_donations(persons):
+def create_test_object_donations(app, persons):
     object_types = create_models(app, ObjectType, [
         {"value":"Buzo"},{"value":"Cama"},{"value":"Horno"}
     ])
@@ -78,7 +78,7 @@ def create_test_object_donations(persons):
     ])
     return object_donations
 
-def create_test_expenditures(currency):
+def create_test_expenditures(app, currency):
     expenditures = create_models(app, Expenditure, [
         {"date":"2024-05-28", "amount":10000.00, "currency":currency[0]},
         {"date":"2024-09-28", "amount":10000.00, "currency":currency[1]},
