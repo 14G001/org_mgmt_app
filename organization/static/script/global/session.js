@@ -2,6 +2,7 @@ import { getById } from "./utils/dom/dom.js";
 import { redirect } from "./redirect.js";
 import { getUrlResource, getUrlResourceAndQParams } from "./utils/url.js";
 import { sendMessage } from "./app/messaging.js";
+import { getAppName } from "./app/appName.js";
 
 function logoutAllTabs() {
     let logout = localStorage.getItem("logout");
@@ -20,7 +21,7 @@ function logoutWindow() {
     } else {
         nextUrl = `?next_url=${nextUrl}`;
     }
-    redirect(`/login/${nextUrl}`);
+    redirect(`/${getAppName()}/login/${nextUrl}`);
 }
 async function sendLogoutMessage() {
     const response = await sendMessage('/logout/', null, "POST");

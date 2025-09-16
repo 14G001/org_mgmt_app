@@ -13,8 +13,7 @@ export async function sendMessage(url, body, method) {
     if (body) {
         messageSettings["body"] = JSON.stringify(body);
     }
-    const app = getAppName();
-    const result = await fetch(`/${app}${url}`, messageSettings);
+    const result = await fetch(`/${getAppName()}${url}`, messageSettings);
     return result;
 }
 
