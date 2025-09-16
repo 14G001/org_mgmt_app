@@ -1,3 +1,4 @@
+import { getAppName } from "./app/appName.js";
 import { getUrlParam } from "./utils/url.js";
 
 export function redirect(url) {
@@ -9,5 +10,5 @@ export function redirectToOriginalWebsite() {
         nextUrl = "/";
     }
     console.log(nextUrl)
-    redirect(nextUrl);
+    redirect(`${getAppName()}${nextUrl}`);
 }

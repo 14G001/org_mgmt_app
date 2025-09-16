@@ -1,4 +1,5 @@
 import { getCookies } from "../utils/cookie.js";
+import { getAppName } from "./appName.js";
 
 export async function sendMessage(url, body, method) {
     const messageSettings = {
@@ -12,7 +13,7 @@ export async function sendMessage(url, body, method) {
     if (body) {
         messageSettings["body"] = JSON.stringify(body);
     }
-    const app = window.location.pathname.split("/")[1];
+    const app = getAppName();
     const result = await fetch(`/${app}${url}`, messageSettings);
     return result;
 }
