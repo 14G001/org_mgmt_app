@@ -1,5 +1,8 @@
+import { getAppName } from "../app/appName.js";
+
 export function getUrlResource(_window) {
-    return _window.location.pathname;
+    return _window.location.pathname.slice(
+        `/${getAppName()}`.length);
 }
 export function getUrlParams(_window) {
     return _window.location.search;
