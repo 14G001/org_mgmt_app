@@ -23,8 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-APP_VERSION = 'example'
+DEBUG = True
+
+ORG_MGMT_APP = 'org_mgmt_app'
+ORG_MGMT_APP_EXAMPLE = 'org_mgmt_app_example'
+ORG_MGMT_APPS = [
+    ORG_MGMT_APP,
+    ORG_MGMT_APP_EXAMPLE,
+]
 
 ALLOWED_HOSTS = [
     'iagoapps.pythonanywhere.com',
@@ -90,10 +96,18 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    "default": { # Required for sessions, users, etc
+        "ENGINE": 'django.db.backends.sqlite3',
+        "NAME": "db.sqlite3",
+    },
+    ORG_MGMT_APP: {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'NAME': f"{ORG_MGMT_APP}_db.sqlite3",
+    },
+    ORG_MGMT_APP_EXAMPLE: {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': f"{ORG_MGMT_APP_EXAMPLE}_db.sqlite3",
+    },
 }
 
 

@@ -9,7 +9,7 @@
         }, {
             "label": "Rebuild Db",
             "type": "shell",
-            "command": "rd /s /q .\\user\\migrations .\\organization\\migrations  && del db.sqlite3 && call env/Scripts/activate && python manage.py makemigrations user organization && python manage.py migrate",
+            "command": "python init_dbs.py",
             "problemMatcher": []
         }
     ]

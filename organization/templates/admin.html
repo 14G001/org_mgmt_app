@@ -39,6 +39,14 @@
                 <button id="logout_button">Log out</button>
             </div>
         </header>
+        {% if example_version %}
+            <div style="background-color: rgb(255, 190, 70); padding: 4px 0;">
+                <p>
+                    Advertencia: la versión del sitio web que se encuentra utilizando
+                    es una versión de ejemplo y los datos no serán modificados.
+                </p>
+            </div>
+        {% endif %}
         <main id="main">
             <div id="organization_elements">
             </div>

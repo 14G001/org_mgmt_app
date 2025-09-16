@@ -17,23 +17,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from session.views import LoginView, LogoutView
-from organization.views.home import HomeView, HomeItemsView
+from organization.views.home import AppHomeView, HomeItemsView
 from organization.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
+from app.views import HomeView
 
 urlpatterns = [
+    path('', HomeView.as_view(), name="home"),
+
+    # Organization management app endpoints:
     # Paths with HTML GUI for users:
     #path('admin/', admin.site.urls),
-    path('login/' , LoginView .as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path(''       , HomeView  .as_view(), name='home'),
-    path('home_items/', HomeItemsView.as_view(), name='home_items'),
+    path('<str:app>/login/' , LoginView  .as_view(), name='login'),
+    path('<str:app>/logout/', LogoutView .as_view(), name='logout'),
+    path('<str:app>/'       , AppHomeView.as_view(), name='app_home'),
+    path('<str:app>/home_items/', HomeItemsView.as_view(), name='home_items'),
 
     # Paths with useful tools for application:
-    path('items_info/' , ItemsInfoView .as_view(), name='items_info' ),
-    path('item_list/'  , ItemListView  .as_view(), name='item_list'  ),
-    path('items_section/', ItemsSectionView.as_view(), name='items_section'),
-    path('new_item/'   , CreateItemView.as_view(), name='new_item'   ),
-    path('item_fields/', ItemView      .as_view(), name='item_fields'),
-    path('update_item/', UpdateItemView.as_view(), name='udpate_item'),
-    path('delete_item/', DeleteItemView.as_view(), name='delete_item'),
+    path('<str:app>/items_info/' , ItemsInfoView .as_view(), name='items_info' ),
+    path('<str:app>/item_list/'  , ItemListView  .as_view(), name='item_list'  ),
+    path('<str:app>/items_section/', ItemsSectionView.as_view(), name='items_section'),
+    path('<str:app>/new_item/'   , CreateItemView.as_view(), name='new_item'   ),
+    path('<str:app>/item_fields/', ItemView      .as_view(), name='item_fields'),
+    path('<str:app>/update_item/', UpdateItemView.as_view(), name='udpate_item'),
+    path('<str:app>/delete_item/', DeleteItemView.as_view(), name='delete_item'),
 ]

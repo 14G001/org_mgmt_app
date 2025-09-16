@@ -2,12 +2,13 @@ from organization.models import (Address, OrganizationBranch, PersonRoleType,
     PersonRole, Person, Currency, MoneyDonation, ObjectType, Object,
     ObjectDonation, ObjectPassType, ObjectPass, Expenditure)
 from organization.test_values.utils import get_person_id
+from app.settings import ORG_MGMT_APP_EXAMPLE
 
-def create_models(model, records):
+def create_models(app, model, records):
     objects = [model(**record) for record in records]
-    return model.objects.bulk_create(objects)
+    return model.objects.using(app).bulk_create(objects)
 
-def create_test_branches(addresses):
+def create_test_branches(app, addresses):
     branches = create_models(OrganizationBranch, [
         {"address":addresses[0], "since":"2024-01-20"},
         {"address":addresses[1], "since":"2024-08-20"},
@@ -20,12 +21,9 @@ def add_test_person_role(person_roles, person, role_type):
         "person": person,
         "start_date": f"2024-01-{str(get_person_id(person)).rjust(2,'0')}",
     })
-def create_test_persons():
-    if Person.objects.exists():
-        return Person.objects.all()
-    person_role_type = create_models(PersonRoleType, [
-        {"value":"Miembro"}, {"value":"Beneficiario"},
-    ])
+def create_test_persons(app, person_role_type):
+    if Person.objects.using(app).exists():
+        return Person.objects.using(app).all()
     NUM_OF_TEST_PERSONS = 10
     test_records = []
     for test_record_num in range(0, NUM_OF_TEST_PERSONS):
@@ -55,7 +53,7 @@ def create_test_money_donations(currency, persons):
     return money_donations
 
 def create_test_object(object_type):
-    _object = Object.objects.create(type=object_type)
+    _object = Object.objects.using(ORG_MGMT_APP_EXAMPLE).create(type=object_type)
     return _object
 def create_test_object_donations(persons):
     object_types = create_models(ObjectType, [
@@ -89,16 +87,21 @@ def create_test_expenditures(currency):
     ])
     return expenditures
 
-def init_organization_test_values():
-    if Person.objects.exists():
+def init_organization_test_values(app):
+    if PersonRoleType.objects.using(app).exists():
         return
-    addresses = create_models(Address, [
-        {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
-        {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
+    if app == ORG_MGMT_APP_EXAMPLE:
+        addresses = create_models(app, Address, [
+            {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
+            {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
+        ])
+        create_test_branches(app, addresses)
+    person_role_type = create_models(PersonRoleType, [
+        {"value":"Miembro"}, {"value":"Beneficiario"},
     ])
-    create_test_branches(addresses)
-    persons = create_test_persons()
-    currency = create_models(Currency, [{"code":"USD"}, {"code":"ARS"}])
-    create_test_money_donations(currency, persons)
-    create_test_object_donations(persons)
-    create_test_expenditures(currency)
+    if app == ORG_MGMT_APP_EXAMPLE:
+        persons = create_test_persons(app, person_role_type)
+        currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])
+        create_test_money_donations(app, currency, persons)
+        create_test_object_donations(app, persons)
+        create_test_expenditures(app, currency)

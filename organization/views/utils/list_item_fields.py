@@ -29,10 +29,10 @@ def get_item_values_to_request(item_type_fields, field_name, final_fields, prefi
             num_of_subfields += 1
     return num_of_subfields
     
-def get_items_list(item_type, order_by, fields, queryset):
+def get_items_list(app, item_type, order_by, fields, queryset):
     item_type_model = apps.get_model(*org_elms_private_info[item_type]["model"].split("."))
     if queryset == None:
-        queryset = item_type_model.objects.filter()
+        queryset = item_type_model.objects.using(app).filter()
     final_fields = []
     field_x_num_of_subfields = {}
     item_type_info = org_elms_public_info[item_type]
@@ -77,18 +77,18 @@ def get_item_type_field_titles(item_type_fields, list_item_fields):
         field_titles.append("ID" if "id" == field
             else item_type_fields[field][FIELD_PARAM_TITLE])
     return field_titles
-def get_item_list_section(item_type):
+def get_item_list_section(app, item_type):
     queryset = None
     source = org_elms_public_info[item_type].get("source")
     original_item_type = item_type
     if source != None:
         source_type =  source["type"]
         source_model = apps.get_model(*org_elms_private_info[source_type]["model"].split("."))
-        queryset = source_model.objects.filter(**org_elms_private_info[item_type]["source"]["characteristics"])
+        queryset = source_model.objects.using(app).filter(**org_elms_private_info[item_type]["source"]["characteristics"])
         item_type = source_type
     sort_criteria = org_elms_public_info[item_type].get("list_item_sort_criteria", ["id"])
     list_item_fields = org_elms_public_info[item_type]["list_item_fields"]
-    items = get_items_list(item_type, sort_criteria, list_item_fields, queryset)
+    items = get_items_list(app, item_type, sort_criteria, list_item_fields, queryset)
     return {
         "title": org_elms_public_info[original_item_type]["title"],
         "item_type": original_item_type,

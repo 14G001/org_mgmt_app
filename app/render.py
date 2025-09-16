@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from app.settings import APP_VERSION
+from app.settings import ORG_MGMT_APP
 
-TITLE = "ONG Admin" if APP_VERSION != "example" else "ONG Admin Example Version"
-
-def send_template(request, path):
-    return render(request, path, {"title":TITLE})
+def send_template(request, app, path):
+    title = None
+    if app == ORG_MGMT_APP:
+        title = "ONG Admin"
+    else:
+        title = "ONG Admin Example Version"
+    return render(request, path, {
+        "title":title, "example_version":app != ORG_MGMT_APP})

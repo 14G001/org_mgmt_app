@@ -1,14 +1,14 @@
-from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from security.urls import is_url_secure
 from user.logged_in import is_user_logged_in
 from app.responses import ok, error
 from app.render import send_template
-from app.settings import APP_VERSION
+from app.settings import ORG_MGMT_APP_EXAMPLE
+from app.view import AppView
 import json
 
-class LoginView(View):
+class LoginView(AppView):
     def redirect_to_original_url(self, request):
         next_url = request.GET.get('next_url')
         if (None == next_url
@@ -16,11 +16,18 @@ class LoginView(View):
             next_url = '/'
         print(f"REDIRECT 2> {next_url}")
         return redirect(next_url)
-    def get(self, request):
-        if is_user_logged_in(request):
+    def get(self, request, app):
+        error = self.validate_app(app)
+        if error != None:
+            return error
+        if (app == ORG_MGMT_APP_EXAMPLE
+            or is_user_logged_in(request)):
             return self.redirect_to_original_url(request)
-        return send_template(request, 'login.html')
-    def post(self, request):
+        return send_template(request, app, 'login.html')
+    def post(self, request, app):
+        error = self.validate_app(app)
+        if error != None:
+            return error
         if is_user_logged_in(request):
             return ok()
         data = json.loads(request.body)
@@ -34,10 +41,12 @@ class LoginView(View):
             return ok()
         return error(401, 'invalid credentials')
     
-class LogoutView(View):
-    def post(self, request):
-        if (APP_VERSION == "example"
-            and not request.user.is_authenticated):
+class LogoutView(AppView):
+    def post(self, request, app):
+        error = self.validate_app(app)
+        if error != None:
+            return error
+        if app == ORG_MGMT_APP_EXAMPLE:
             return error(500, "Example app version")
         logout(request) # Removes session from server
         return ok()

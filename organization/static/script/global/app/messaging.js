@@ -12,7 +12,9 @@ export async function sendMessage(url, body, method) {
     if (body) {
         messageSettings["body"] = JSON.stringify(body);
     }
-    return await fetch(url, messageSettings);
+    const app = window.location.pathname.split("/")[1];
+    const result = await fetch(`/${app}${url}`, messageSettings);
+    return result;
 }
 
 function validateValues(form) {
@@ -39,8 +41,6 @@ export async function sendItemUpdateMessage(form, itemType, itemId) {
     if (errors) {
         return null;
     }
-    console.log("FORM VALUES")
-    console.log(JSON.stringify(form.getValues(), null, 2))
     const response = await sendMessage(`/update_item/?item_type=${itemType}&item_id=${itemId}`, form.getValues(), "PATCH");
     return response;
 } 
