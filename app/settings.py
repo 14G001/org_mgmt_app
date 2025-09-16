@@ -98,15 +98,15 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     "default": { # Required for sessions, users, etc
         "ENGINE": 'django.db.backends.sqlite3',
-        "NAME": "db.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     },
     ORG_MGMT_APP: {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': f"{ORG_MGMT_APP}_db.sqlite3",
+        'NAME': BASE_DIR / f"{ORG_MGMT_APP}_db.sqlite3",
     },
     ORG_MGMT_APP_EXAMPLE: {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': f"{ORG_MGMT_APP_EXAMPLE}_db.sqlite3",
+        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXAMPLE}_db.sqlite3",
     },
 }
 
