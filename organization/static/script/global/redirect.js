@@ -10,5 +10,5 @@ export function redirectToOriginalWebsite() {
         nextUrl = "/";
     }
     console.log(nextUrl)
-    redirect(`${getAppName()}${nextUrl}`);
+    redirect(`/${getAppName()}${nextUrl}`);
 }
