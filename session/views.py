@@ -17,17 +17,17 @@ class LoginView(AppView):
         print(f"REDIRECT 2> {next_url}")
         return redirect(next_url)
     def get(self, request, app):
-        error = self.validate_app(app)
-        if error != None:
-            return error
+        req_err = self.validate_app(app)
+        if req_err != None:
+            return req_err
         if (app == ORG_MGMT_APP_EXAMPLE
             or is_user_logged_in(request)):
             return self.redirect_to_original_url(request)
         return send_template(request, app, 'login.html')
     def post(self, request, app):
-        error = self.validate_app(app)
-        if error != None:
-            return error
+        req_err = self.validate_app(app)
+        if req_err != None:
+            return req_err
         if is_user_logged_in(request):
             return ok()
         data = json.loads(request.body)
@@ -43,9 +43,9 @@ class LoginView(AppView):
     
 class LogoutView(AppView):
     def post(self, request, app):
-        error = self.validate_app(app)
-        if error != None:
-            return error
+        req_err = self.validate_app(app)
+        if req_err != None:
+            return req_err
         if app == ORG_MGMT_APP_EXAMPLE:
             return error(500, "Example app version")
         logout(request) # Removes session from server
