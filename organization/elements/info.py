@@ -222,8 +222,8 @@ ORGANIZATION_ELEMENTS_INFO = [
         },
         "public": {
             "title": {
-                "singular": "Tipo de pase de objeto" ,
-                "plural"  : "Tipos de pase de objeto",
+                "singular": "Tipo de transferencia de objeto" ,
+                "plural"  : "Tipos de transferencias de objetos",
             },
             "list_item_fields": ["value"],
             "fields": {
