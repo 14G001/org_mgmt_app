@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from app.settings import ORG_MGMT_APP
+from app.settings import EXAMPLE_APP_INDICATOR
 
 def send_template(request, app, path):
     title = None
-    if app == ORG_MGMT_APP:
-        title = "ONG Admin"
-    else:
+    is_example_app_version = app.endswith(EXAMPLE_APP_INDICATOR)
+    if is_example_app_version:
         title = "ONG Admin Example Version"
+    else:
+        title = "ONG Admin"
     return render(request, path, {
-        "title":title, "example_version":app != ORG_MGMT_APP})
+        "title":title, "example_version":is_example_app_version})

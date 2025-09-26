@@ -25,11 +25,13 @@ SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ORG_MGMT_APP = 'org_mgmt_app'
-ORG_MGMT_APP_EXAMPLE = 'org_mgmt_app_example'
+EXAMPLE_APP_INDICATOR = '_example'
+
+ORG_MGMT_APP_EXA = 'ensenaxargentina'
+ORG_MGMT_APP_EXA_EXAMPLE = f'ensenaxargentina{EXAMPLE_APP_INDICATOR}'
 ORG_MGMT_APPS = [
-    ORG_MGMT_APP,
-    ORG_MGMT_APP_EXAMPLE,
+    ORG_MGMT_APP_EXA,
+    ORG_MGMT_APP_EXA_EXAMPLE,
 ]
 
 ALLOWED_HOSTS = [
@@ -100,13 +102,13 @@ DATABASES = {
         "ENGINE": 'django.db.backends.sqlite3',
         "NAME": BASE_DIR / "db.sqlite3",
     },
-    ORG_MGMT_APP: {
+    ORG_MGMT_APP_EXA: {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / f"{ORG_MGMT_APP}_db.sqlite3",
+        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXA}_db.sqlite3",
     },
-    ORG_MGMT_APP_EXAMPLE: {
+    ORG_MGMT_APP_EXA_EXAMPLE: {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXAMPLE}_db.sqlite3",
+        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXA_EXAMPLE}_db.sqlite3",
     },
 }
 

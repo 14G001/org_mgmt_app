@@ -1,7 +1,6 @@
 from app.view import UiView, SecureView
 from app.responses import ok
 from app.render import send_template
-from app.settings import ORG_MGMT_APP_EXAMPLE
 from organization.views.utils.list_item_fields import get_item_list_section
 from organization.test_values.init import init_organization_test_values
 from organization.elements.elements import get_org_elms_public_info

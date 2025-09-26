@@ -4,7 +4,6 @@ from security.urls import is_url_secure
 from user.logged_in import is_user_logged_in
 from app.responses import ok, error
 from app.render import send_template
-from app.settings import ORG_MGMT_APP_EXAMPLE
 from app.view import AppView
 import json
 
@@ -20,7 +19,7 @@ class LoginView(AppView):
         req_err = self.validate_app(app)
         if req_err != None:
             return req_err
-        if (app == ORG_MGMT_APP_EXAMPLE
+        if (app.endswith(EXAMPLE_APP_INDICATOR)
             or is_user_logged_in(request)):
             return self.redirect_to_original_url(request)
         return send_template(request, app, 'login.html')
@@ -46,7 +45,7 @@ class LogoutView(AppView):
         req_err = self.validate_app(app)
         if req_err != None:
             return req_err
-        if app == ORG_MGMT_APP_EXAMPLE:
+        if app.endswith(EXAMPLE_APP_INDICATOR):
             return error(500, "Example app version")
         logout(request) # Removes session from server
         return ok()

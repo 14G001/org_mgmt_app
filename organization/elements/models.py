@@ -8,24 +8,16 @@ class Address(m.Model):
     postal_code     = m.TextField(null=True )
     country         = m.TextField(null=False)
     db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
-
-class OrganizationType(m.Model):
-    value = m.TextField(null=False, unique=True)
-class Organization(m.Model):
-    type = m.ForeignKey(OrganizationType, null=False, on_delete=m.CASCADE)
-    name = m.TextField(null=False, unique=True)
-
-class AddressXOrganization(m.Model):
-    address      = m.ForeignKey(Address     , null=False, on_delete=m.CASCADE)
-    organization = m.ForeignKey(Organization, null=False, on_delete=m.CASCADE)
-    class Meta:
-        unique_together = (("address","organization",),)
+class OrganizationBranch(m.Model):
+    address         = m.ForeignKey(Address, on_delete=m.CASCADE)
+    since           = m.DateField(null=True)
 
 class Person(m.Model):
     national_id     = m.TextField(null=False, unique=True) # Person identifier per country; for example: SSN in United States, DNI in Argentina, etc...
     name            = m.TextField(null=False)
     surname         = m.TextField(null=False)
     birth_date      = m.DateField(null=False)
+    residence       = m.ForeignKey(Address, null=True, related_name="persons_living_on_it", on_delete=m.CASCADE)
     db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
 class PersonRoleType(m.Model):
     value           = m.TextField(unique=True) # 'member','beneficiary'
@@ -65,18 +57,6 @@ class ObjectPass(m.Model):
     object          = m.ForeignKey(Object, null=False, related_name='owner_exchanges' , on_delete=m.CASCADE)
     new_person      = m.ForeignKey(Person, null=True , related_name='objects_received', on_delete=m.CASCADE) # If person is NULL; it means it was lost or stolen
     datetime        = m.DateTimeField(null=False)
-    db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
-
-class ServiceType(m.Model):
-    value = m.TextField(null=False)
-class ServiceDonation(m.Model):
-    type  = m.ForeignKey(ServiceType, null=False, on_delete=m.CASCADE)
-    donor = m.ForeignKey(Person     , null=False, on_delete=m.CASCADE)
-    date  = m.DateField(null=False)
-    estimated_cost_currency = m.ForeignKey(Currency, null=True, on_delete=m.CASCADE)
-    estimated_cost_amount   = m.FloatField(null=True)
-    service_start_date      = m.DateField (null=True)
-    service_end_date        = m.DateField (null=True)
     db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
 
 class Expenditure(m.Model):

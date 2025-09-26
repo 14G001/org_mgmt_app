@@ -3,7 +3,7 @@ from user.logged_in import is_user_logged_in
 from django.shortcuts import redirect
 from security.urls import is_url_secure
 from app.responses import resource_not_exists, error
-from app.settings import ORG_MGMT_APPS, ORG_MGMT_APP_EXAMPLE
+from app.settings import ORG_MGMT_APPS, EXAMPLE_APP_INDICATOR
 
 class AppView(View):
     def validate_app(self, app):
@@ -16,7 +16,7 @@ class UiView(AppView):
         error = self.validate_app(app)
         if error != None:
             return error
-        if (app != ORG_MGMT_APP_EXAMPLE
+        if (not app.endswith(EXAMPLE_APP_INDICATOR)
             and not is_user_logged_in(request)):
             next_url = request.get_full_path()[len("/")+len(app):]
             last_url_part = ''
@@ -34,7 +34,7 @@ class SecureView(AppView):
         error = self.validate_app(app)
         if error != None:
             return error
-        if (app != ORG_MGMT_APP_EXAMPLE
+        if (not app.endswith(EXAMPLE_APP_INDICATOR)
             and not is_user_logged_in(request)):
             return resource_not_exists() # For security reasons; this endpoints should not reveal its existance to not logged users.
         error_response = self.validate_message(request)

@@ -1,19 +1,37 @@
-from organization.models import (Address, OrganizationBranch, PersonRoleType,
-    PersonRole, Person, Currency, MoneyDonation, ObjectType, Object,
-    ObjectDonation, ObjectPassType, ObjectPass, Expenditure)
+from organization.models import (Address, AddressXOrganization, OrganizationType,
+    Organization, PersonRoleType, PersonRole, Person, Currency, MoneyDonation,
+    ObjectType, Object, ObjectDonation, ObjectPassType, ObjectPass,
+    ServiceType, ServiceDonation, Expenditure)
 from organization.test_values.utils import get_person_id
-from app.settings import ORG_MGMT_APP_EXAMPLE
+from app.settings import EXAMPLE_APP_INDICATOR
 
 def create_models(app, model, records):
     objects = [model(**record) for record in records]
     return model.objects.using(app).bulk_create(objects)
 
-def create_test_branches(app, addresses):
-    branches = create_models(app, OrganizationBranch, [
-        {"address":addresses[0], "since":"2024-01-20"},
-        {"address":addresses[1], "since":"2024-08-20"},
+def create_test_organization_addresses(app, addresses, organization):
+    branches = create_models(app, AddressXOrganization, [
+        {"address":addresses[0], "organization":organization[0]},
+        {"address":addresses[1], "organization":organization[0]},
     ])
     return branches
+
+def create_test_organizations(app):
+    organization_type = create_models(app, OrganizationType, [
+        {"value":"ONG"                    },
+        {"value":"Institución Académica"  },
+        {"value":"Organización del Estado"},
+        {"value":"Empresa"                },
+        {"value":"Organismo Internacional"},
+    ])
+    organization = create_models(app, Organization, [
+        {"type":organization_type[0], "name":"Enseñá X Argentina"},
+        {"type":organization_type[0], "name":"ONG Externa 1"   },
+        {"type":organization_type[0], "name":"ONG Externa 2"   },
+        {"type":organization_type[3], "name":"Empresa 1"       },
+        {"type":organization_type[3], "name":"Empresa 2"       },
+    ])
+    return organization
 
 def add_test_person_role(person_roles, person, role_type):
     person_roles.append({
@@ -52,23 +70,23 @@ def create_test_money_donations(app, currency, persons):
     ])
     return money_donations
 
-def create_test_object(object_type):
-    _object = Object.objects.using(ORG_MGMT_APP_EXAMPLE).create(type=object_type)
+def create_test_object(app, object_type):
+    _object = Object.objects.using(app).create(type=object_type)
     return _object
 def create_test_object_donations(app, persons):
     object_types = create_models(app, ObjectType, [
         {"value":"Buzo"},{"value":"Cama"},{"value":"Horno"}
     ])
     object_donations = create_models(app, ObjectDonation, [
-        {"object":create_test_object(object_types[0]), "donor":persons[0], "date":"2024-07-20"},
-        {"object":create_test_object(object_types[1]), "donor":persons[0], "date":"2024-07-21"},
-        {"object":create_test_object(object_types[1]), "donor":persons[1], "date":"2024-07-21"},
-        {"object":create_test_object(object_types[2]), "donor":persons[5], "date":"2024-07-20"},
+        {"object":create_test_object(app, object_types[0]), "donor":persons[0], "date":"2024-07-20"},
+        {"object":create_test_object(app, object_types[1]), "donor":persons[0], "date":"2024-07-21"},
+        {"object":create_test_object(app, object_types[1]), "donor":persons[1], "date":"2024-07-21"},
+        {"object":create_test_object(app, object_types[2]), "donor":persons[5], "date":"2024-07-20"},
     ])
     object_pass_types = create_models(app, ObjectPassType, [
-        {"value":"Transferencia a beneficiario"},
-        {"value":"Transferencia a organización"},
-        {"value":"Perdido"                     },
+        {"value":"Transferencia a institución académica"},
+        {"value":"Transferencia a organización"         },
+        {"value":"Perdido"                              },
     ])
     object_owner_exchanges = create_models(app, ObjectPass, [
         {"type":object_pass_types[0], "object":object_donations[0].object, "new_person":persons[6], "datetime":"2025-09-20 15:40:40"},
@@ -77,6 +95,23 @@ def create_test_object_donations(app, persons):
         {"type":object_pass_types[2], "object":object_donations[2].object, "new_person":None      , "datetime":"2025-10-21 16:35:35"}
     ])
     return object_donations
+
+def create_test_service_donations(app, persons):
+    service_type = create_models(app, ServiceType, [
+        {"value":"Educación y capacitación"      },
+        {"value":"Asesoría legal"                },
+        {"value":"Asesoría contable o impositiva"},
+        {"value":"Diseño y contenido audiovisual"},
+        {"value":"Transporte"                    },
+        {"value":"Desarrollo o mantenimiento de sitios web"},
+    ])
+    service_donations = create_models(app, ServiceDonation, [
+        {"type":service_type[0], "donor":persons[0], "date":"2025-11-20", "service_start_date":"2025-11-20", "service_end_date":"2026-11-20"},
+        {"type":service_type[0], "donor":persons[1], "date":"2025-11-21", "service_start_date":"2025-11-21", "service_end_date":"2026-11-21"},
+        {"type":service_type[3], "donor":persons[5], "date":"2025-11-22", "service_start_date":"2025-11-22", "service_end_date":"2026-11-22"},
+        {"type":service_type[3], "donor":persons[6], "date":"2025-11-23", "service_start_date":"2025-11-23", "service_end_date":"2026-11-23"},
+    ])
+    return service_donations
 
 def create_test_expenditures(app, currency):
     expenditures = create_models(app, Expenditure, [
@@ -90,18 +125,25 @@ def create_test_expenditures(app, currency):
 def init_organization_test_values(app):
     if PersonRoleType.objects.using(app).exists():
         return
-    if app == ORG_MGMT_APP_EXAMPLE:
+    is_example_app = app.endswith(EXAMPLE_APP_INDICATOR)
+    if is_example_app:
         addresses = create_models(app, Address, [
             {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
             {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
         ])
-        create_test_branches(app, addresses)
+        organization = create_test_organizations(app)
+        create_test_organization_addresses(app, addresses, organization)
     person_role_type = create_models(app, PersonRoleType, [
-        {"value":"Miembro"}, {"value":"Beneficiario"},
+        {"value":"Docente/Participante"  },
+        {"value":"Formadores de Docentes"},
+        {"value":"Dirección/Gestión"     },
+        {"value":"Aliado"                },
+        {"value":"Estudiante"            },
     ])
-    if app == ORG_MGMT_APP_EXAMPLE:
+    if is_example_app:
         persons = create_test_persons(app, person_role_type)
         currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])
         create_test_money_donations(app, currency, persons)
         create_test_object_donations(app, persons)
+        create_test_service_donations(app, persons)
         create_test_expenditures(app, currency)

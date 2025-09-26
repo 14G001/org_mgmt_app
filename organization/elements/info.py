@@ -19,12 +19,12 @@ ORGANIZATION_ELEMENTS_INFO = [
         },
         "public": {
             "title": {
-                "singular": "Dirección"  ,
-                "plural"  : "Direcciones",
+                "singular": "Dirección de lugar físico"  ,
+                "plural"  : "Direcciones de lugares físicos",
             },
             "list_item_fields": ["street_address1", "city", "state_province"],
             "fields": {
-                "street_address1":[REQ   , "str", "Dirección 1"],
+                "street_address1":[REQ   , "str", "Dirección"],
                 "street_address2":[NOTREQ, "str", "Dirección 2"],
                 "city"           :[NOTREQ, "str", "Ciudad"          ],
                 "state_province" :[NOTREQ, "str", "Estado/Provincia"],
@@ -33,21 +33,52 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("branch", {
+    OrgElm("address_x_organization", {
         "private": {
-            "model": "organization.OrganizationBranch"
+            "model": "organization.AddressXOrganization"
         },
         "public": {
             "title": {
-                "singular": "Sede"  ,
-                "plural"  : "Sedes",
+                "singular": "Sede de organización"  ,
+                "plural"  : "Sedes de organizaciones",
             },
-            "list_item_fields": ["address"],
+            "list_item_fields": ["address", "organization"],
             "fields": {
-                "address":[REQ   , "address", "Dirección"],
-                "since"  :[NOTREQ, "date"   , "Desde"    ],
+                "address"     :[REQ, "address"     , "Dirección"   ],
+                "organization":[REQ, "organization", "Organización"],
             },
         },
+    }),
+    OrgElm("organization_type", {
+        "private": {
+            "model": "organization.OrganizationType"
+        },
+        "public": {
+            "title": {
+                "singular": "Tipo de organización"   ,
+                "plural"  : "Tipos de organizaciones",
+            },
+            "list_item_fields": ["value"],
+            "fields": {
+                "value": [REQ, "str", "Tipo"],
+            },
+        }
+    }),
+    OrgElm("organization", {
+        "private": {
+            "model": "organization.Organization"
+        },
+        "public": {
+            "title": {
+                "singular": "Organización"  ,
+                "plural"  : "Organizaciones",
+            },
+            "list_item_fields": ["name", "type"],
+            "fields": {
+                "type": [REQ, "organization_type", "Tipo"  ],
+                "name": [REQ, "str"              , "Nombre"],
+            },
+        }
     }),
     OrgElm("person_role_type", {
         "private": {
@@ -163,8 +194,8 @@ ORGANIZATION_ELEMENTS_INFO = [
             "list_item_fields": ["id", "type"],
             "fields": {
                 "type":[REQ, "object_type", "Tipo de objeto"],
-                "estimated_cost_currency":[REQ, "currency", "Moneda del costo estimado"],
-                "estimated_cost_amount"  :[REQ, "float"   , "Monto del costo estimado" ],
+                "estimated_cost_currency":[NOTREQ, "currency", "Moneda del costo estimado"],
+                "estimated_cost_amount"  :[NOTREQ, "float"   , "Monto del costo estimado" ],
             },
         },
     }),
@@ -207,15 +238,52 @@ ORGANIZATION_ELEMENTS_INFO = [
         },
         "public": {
             "title": {
-                "singular": "Pase de objeto"  ,
-                "plural"  : "Pases de objetos",
+                "singular": "Transferencia de objeto"  ,
+                "plural"  : "Transferencias de objetos",
             },
             "list_item_fields": ["object", "new_person", "datetime", "type"],
             "fields": {
                 "object"    :[REQ, "object"  , "Objeto"      ],
                 "new_person":[REQ, "person"  , "Dueño nuevo" ],
                 "datetime"  :[REQ, "datetime", "Fecha y hora"],
-                "type"      :[REQ, "object_pass_type", "Tipo de pase de objeto"],
+                "type"      :[REQ, "object_pass_type", "Tipo de transferencia de objeto"],
+            },
+        },
+    }),
+    OrgElm("service_type", {
+        "private": {
+            "model": "organization.ServiceType"
+        },
+        "public": {
+            "title": {
+                "singular": "Tipo de servicio" ,
+                "plural"  : "Tipos de servicios",
+            },
+            "list_item_fields": ["value"],
+            "fields": {
+                "value":[REQ, "str", "Tipo"],
+            },
+        },
+    }),
+    OrgElm("service_donation", {
+        "private": {
+            "model": "organization.ServiceDonation"
+        },
+        "public": {
+            "title": {
+                "singular": "Donación de servicio" ,
+                "plural"  : "Donaciones de servicios",
+            },
+            "list_item_fields": ["date","type","donor","service_start_date"],
+            "list_item_sort_criteria": ["-date"],
+            "fields": {
+                "type" :[REQ, "service_type", "Tipo de servicio"],
+                "donor":[REQ, "person"      , "Donador"         ],
+                "date" :[REQ, "date"        , "Fecha"           ],
+                "service_start_date":[NOTREQ, "date", "Fecha de inicio del servicio"],
+                "service_end_date"  :[NOTREQ, "date", "Fecha de fin del servicio"   ],
+                "estimated_cost_currency":[NOTREQ, "currency", "Moneda del costo estimado"],
+                "estimated_cost_amount"  :[NOTREQ, "float"   , "Monto del costo estimado" ],
             },
         },
     }),
