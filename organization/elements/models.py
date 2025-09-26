@@ -17,7 +17,6 @@ class Person(m.Model):
     name            = m.TextField(null=False)
     surname         = m.TextField(null=False)
     birth_date      = m.DateField(null=False)
-    residence       = m.ForeignKey(Address, null=True, related_name="persons_living_on_it", on_delete=m.CASCADE)
     db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
 class PersonRoleType(m.Model):
     value           = m.TextField(unique=True) # 'member','beneficiary'

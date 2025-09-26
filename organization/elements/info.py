@@ -129,7 +129,6 @@ ORGANIZATION_ELEMENTS_INFO = [
                 "name"      :[REQ   , "str"    , "Nombre/s"  ],
                 "surname"   :[REQ   , "str"    , "Apellido/s"],
                 "birth_date":[REQ   , "date"   , "Fecha de nacimiento"],
-                "residence" :[NOTREQ, "address", "Dirección" ],
             },
         },
     }),
