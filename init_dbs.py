@@ -1,7 +1,7 @@
 import subprocess
 
-DBS          = [              "ensenaxargentina"           , "ensenaxargentina_example"           ]
-DB_FILENAMES = ["db.sqlite3", "ensenaxargentina_db.sqlite3", "ensenaxargentina_example_db.sqlite3"]
+DBS          = [              "org_mgmt_app"           , "org_mgmt_app_example"           , "ensenaxargentina"           , "ensenaxargentina_example"           ]
+DB_FILENAMES = ["db.sqlite3", "org_mgmt_app_db.sqlite3", "org_mgmt_app_example_db.sqlite3", "ensenaxargentina_db.sqlite3", "ensenaxargentina_example_db.sqlite3"]
 APPS = ["user", "organization"]
 
 def runcommand(command):

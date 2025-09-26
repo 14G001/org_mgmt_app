@@ -3,7 +3,7 @@ from organization.models import (Address, AddressXOrganization, OrganizationType
     ObjectType, Object, ObjectDonation, ObjectPassType, ObjectPass,
     ServiceType, ServiceDonation, Expenditure)
 from organization.test_values.utils import get_person_id
-from app.settings import EXAMPLE_APP_INDICATOR
+from app.settings import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
 
 def create_models(app, model, records):
     objects = [model(**record) for record in records]
@@ -15,6 +15,20 @@ def create_test_organization_addresses(app, addresses, organization):
         {"address":addresses[1], "organization":organization[0]},
     ])
     return branches
+def get_person_role_types(app):
+    if app.startswith("ensenaxargentina"):
+        return [
+            {"value":"Docente/Participante"  },
+            {"value":"Formadores de Docentes"},
+            {"value":"Dirección/Gestión"     },
+            {"value":"Aliado"                },
+            {"value":"Estudiante"            },
+        ]
+    return [
+        {"value":"Miembro"     },
+        {"value":"Beneficiario"},
+        {"value":"Empleado"    },
+    ]
 
 def create_test_organizations(app):
     organization_type = create_models(app, OrganizationType, [
@@ -24,8 +38,9 @@ def create_test_organizations(app):
         {"value":"Empresa"                },
         {"value":"Organismo Internacional"},
     ])
+
     organization = create_models(app, Organization, [
-        {"type":organization_type[0], "name":"Enseñá X Argentina"},
+        {"type":organization_type[0], "name":AVAILABLE_APPS[app]["name"]},
         {"type":organization_type[0], "name":"ONG Externa 1"   },
         {"type":organization_type[0], "name":"ONG Externa 2"   },
         {"type":organization_type[3], "name":"Empresa 1"       },
@@ -133,13 +148,7 @@ def init_organization_test_values(app):
         ])
         organization = create_test_organizations(app)
         create_test_organization_addresses(app, addresses, organization)
-    person_role_type = create_models(app, PersonRoleType, [
-        {"value":"Docente/Participante"  },
-        {"value":"Formadores de Docentes"},
-        {"value":"Dirección/Gestión"     },
-        {"value":"Aliado"                },
-        {"value":"Estudiante"            },
-    ])
+    person_role_type = create_models(app, PersonRoleType, get_person_role_types(app))
     if is_example_app:
         persons = create_test_persons(app, person_role_type)
         currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])

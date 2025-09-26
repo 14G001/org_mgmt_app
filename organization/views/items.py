@@ -9,7 +9,7 @@ import json
 from abc import ABC
 
 org_elms_private_info = get_org_elms_private_info()
-org_elms_public_info  = get_org_elms_public_info()
+org_elms_public_info  = get_org_elms_public_info ()
 
 def get_input_field_values(item_type, request):
     input_fields = json.loads(request.body)

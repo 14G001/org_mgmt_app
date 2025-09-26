@@ -27,12 +27,16 @@ DEBUG = False
 
 EXAMPLE_APP_INDICATOR = '_example'
 
-ORG_MGMT_APP_EXA = 'ensenaxargentina'
-ORG_MGMT_APP_EXA_EXAMPLE = f'ensenaxargentina{EXAMPLE_APP_INDICATOR}'
-ORG_MGMT_APPS = [
-    ORG_MGMT_APP_EXA,
-    ORG_MGMT_APP_EXA_EXAMPLE,
-]
+def get_available_apps(*args):
+    available_apps = {}
+    for app in args:
+        available_apps[app[0]                            ] = {"name":app[1]}
+        available_apps[f"{app[0]}{EXAMPLE_APP_INDICATOR}"] = {"name":app[1]}
+    return available_apps
+AVAILABLE_APPS = get_available_apps(
+    ('org_mgmt_app'    ,"Organización Actual",),
+    ('ensenaxargentina',"Enseñá X Argentina" ,),)
+
 
 ALLOWED_HOSTS = [
     'iagoapps.pythonanywhere.com',
@@ -43,10 +47,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://iagoapps.pythonanywhere.com"
 ]
 
-""" TODO: Uncomment the following:
-CSRF_COOKIE_HTTPONLY = True
-SESSION_COOKIE_HTTPONLY = True
-"""
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = None
@@ -97,20 +97,20 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": { # Required for sessions, users, etc
-        "ENGINE": 'django.db.backends.sqlite3',
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
-    ORG_MGMT_APP_EXA: {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXA}_db.sqlite3",
-    },
-    ORG_MGMT_APP_EXA_EXAMPLE: {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / f"{ORG_MGMT_APP_EXA_EXAMPLE}_db.sqlite3",
-    },
-}
+def get_databases():
+    databases = {
+        "default": { # Required for sessions, users, etc
+            "ENGINE": 'django.db.backends.sqlite3',
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
+    }
+    for app in AVAILABLE_APPS:
+        databases[app] = {
+            "ENGINE": 'django.db.backends.sqlite3',
+            "NAME": BASE_DIR / f"{app}_db.sqlite3",
+        }
+    return databases
+DATABASES = get_databases()
 
 
 # Password validation
