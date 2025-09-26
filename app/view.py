@@ -2,13 +2,13 @@ from django.views import View
 from user.logged_in import is_user_logged_in
 from django.shortcuts import redirect
 from security.urls import is_url_secure
-from app.responses import resource_not_exists, error
+from app.responses import resource_not_exists
 from app.settings import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
 
 class AppView(View):
     def validate_app(self, app):
         if app not in AVAILABLE_APPS:
-            return error(400, "App not exist")
+            return resource_not_exists()
         return None
 
 class UiView(AppView):
