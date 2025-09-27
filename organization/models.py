@@ -1,13 +1,8 @@
+from utils.common_models import AddressModelBase
 from django.db import models as m
 
-class Address(m.Model):
-    street_address1 = m.TextField(null=False)
-    street_address2 = m.TextField(null=True )
-    city            = m.TextField(null=True )
-    state_province  = m.TextField(null=True )
-    postal_code     = m.TextField(null=True )
-    country         = m.TextField(null=False)
-    db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
+class Address(AddressModelBase):
+    pass
 
 class OrganizationType(m.Model):
     value = m.TextField(null=False, unique=True)

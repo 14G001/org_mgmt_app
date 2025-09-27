@@ -1,4 +1,5 @@
 from django.db import models as m
+from utils.common_models import PersonModelBase
 
 class Address(m.Model):
     street_address1 = m.TextField(null=False)
@@ -12,12 +13,8 @@ class OrganizationBranch(m.Model):
     address         = m.ForeignKey(Address, on_delete=m.CASCADE)
     since           = m.DateField(null=True)
 
-class Person(m.Model):
-    national_id     = m.TextField(null=False, unique=True) # Person identifier per country; for example: SSN in United States, DNI in Argentina, etc...
-    name            = m.TextField(null=False)
-    surname         = m.TextField(null=False)
-    birth_date      = m.DateField(null=False)
-    db_add_datetime = m.DateTimeField(null=False, auto_now_add=True)
+class Person(PersonModelBase):
+    pass
 class PersonRoleType(m.Model):
     value           = m.TextField(unique=True) # 'member','beneficiary'
 class PersonRole(m.Model):

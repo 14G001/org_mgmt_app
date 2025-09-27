@@ -23,19 +23,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 EXAMPLE_APP_INDICATOR = '_example'
 
-def get_available_apps(*args):
+ORG_MGMT_APPS = {
+    'org_mgmt_app'    :{"name":"Organización Actual"},
+    'ensenaxargentina':{"name":"Enseñá X Argentina" },
+}
+
+def get_available_apps(**kwargs):
     available_apps = {}
-    for app in args:
-        available_apps[app[0]                            ] = {"name":app[1]}
-        available_apps[f"{app[0]}{EXAMPLE_APP_INDICATOR}"] = {"name":app[1]}
+    for app in kwargs:
+        available_apps[app                            ] = kwargs[app]
+        available_apps[f"{app}{EXAMPLE_APP_INDICATOR}"] = kwargs[app]
     return available_apps
 AVAILABLE_APPS = get_available_apps(
-    ('org_mgmt_app'    ,"Organización Actual",),
-    ('ensenaxargentina',"Enseñá X Argentina" ,),)
+    exa_teachers={"name":"Enseñá X Argentina - Profesores"},
+    **ORG_MGMT_APPS)
 
 AUTH_USER_MODEL = "user.User"
 

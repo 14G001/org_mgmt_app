@@ -53,8 +53,8 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     app        = m.ForeignKey(App, null=False, on_delete=m.CASCADE)
-    email      = m.EmailField()
-    username   = m.CharField(max_length=150)
+    email      = m.EmailField(null=False)
+    username   = m.CharField(max_length=150, null=False)
     type       = m.ForeignKey(UserType, null=False, on_delete=m.CASCADE)
     identifier = m.CharField(max_length=300, null=False, unique=True)
     objects    = CustomUserManager()
