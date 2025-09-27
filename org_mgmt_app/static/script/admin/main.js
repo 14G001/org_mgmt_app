@@ -110,12 +110,12 @@ async function init() {
     const sectionsContainer = getById("organization_elements");
     for (const sectionNum in sectionsInfo) {
         const sectionInfo = sectionsInfo[sectionNum];
-        const orgElmSection = createElement(sectionsContainer, "section")
-        const titleContainer = createElement(orgElmSection, "h2");
+        const AppElmSection = createElement(sectionsContainer, "section")
+        const titleContainer = createElement(AppElmSection, "h2");
         const title = createElement(titleContainer, "div", "org_elm_admin_toggle_button");
         const arrow = createText(title, "div", "/\\");
         createText(title, "p", sectionInfo["title"]["plural"]);
-        const itemList = createElement(orgElmSection, "table", "org_elms_adm_items");
+        const itemList = createElement(AppElmSection, "table", "org_elms_adm_items");
         createSectionToggleButton(titleContainer, [itemList], arrow, false);
         await initSectionItemList(itemList, sectionInfo);
     }

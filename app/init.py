@@ -1,9 +1,10 @@
-from organization.models import (Address, AddressXOrganization, OrganizationType,
+from org_mgmt_app.models import (Address, AddressXOrganization, OrganizationType,
     Organization, PersonRoleType, PersonRole, Person, Currency, MoneyDonation,
     ObjectType, Object, ObjectDonation, ObjectPassType, ObjectPass,
     ServiceType, ServiceDonation, Expenditure)
-from organization.test_values.utils import get_person_id
-from app.settings import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
+from app.test_values.utils import get_person_id
+from app.settings import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS, APP_TYPE_ORG_MGMT_APP
+from app.apps import get_app_type
 
 def create_models(app, model, records):
     objects = [model(**record) for record in records]
@@ -137,22 +138,25 @@ def create_test_expenditures(app, currency):
     ])
     return expenditures
 
-def init_organization_test_values(app):
-    if PersonRoleType.objects.using(app).exists():
+def init_db_test_values(app):
+    if APP_TYPE_ORG_MGMT_APP == get_app_type(app):
+        if PersonRoleType.objects.using(app).exists():
+            return
+        is_example_app = app.endswith(EXAMPLE_APP_INDICATOR)
+        if is_example_app:
+            addresses = create_models(app, Address, [
+                {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
+                {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
+            ])
+            organization = create_test_organizations(app)
+            create_test_organization_addresses(app, addresses, organization)
+        person_role_type = create_models(app, PersonRoleType, get_person_role_types(app))
+        if is_example_app:
+            persons = create_test_persons(app, person_role_type)
+            currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])
+            create_test_money_donations(app, currency, persons)
+            create_test_object_donations(app, persons)
+            create_test_service_donations(app, persons)
+            create_test_expenditures(app, currency)
         return
-    is_example_app = app.endswith(EXAMPLE_APP_INDICATOR)
-    if is_example_app:
-        addresses = create_models(app, Address, [
-            {"street_address1":"San Martin 2382", "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
-            {"street_address1":"Yrigoyen 1395"  , "city":"CABA", "state_province":"Buenos Aires", "country":"Argentina",},
-        ])
-        organization = create_test_organizations(app)
-        create_test_organization_addresses(app, addresses, organization)
-    person_role_type = create_models(app, PersonRoleType, get_person_role_types(app))
-    if is_example_app:
-        persons = create_test_persons(app, person_role_type)
-        currency = create_models(app, Currency, [{"code":"USD"}, {"code":"ARS"}])
-        create_test_money_donations(app, currency, persons)
-        create_test_object_donations(app, persons)
-        create_test_service_donations(app, persons)
-        create_test_expenditures(app, currency)
+    return

@@ -23,9 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 EXAMPLE_APP_INDICATOR = '_example'
+
+APP_TYPE_ORG_MGMT_APP = 0
+APP_TYPE_EXA_TEACHERS = 1
 
 ORG_MGMT_APPS = {
     'org_mgmt_app'    :{"name":"Organización Actual"},
@@ -65,9 +68,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'organization',
     'user',
     'session',
+    'org_mgmt_app',
+    'exa_teachers',
 ]
 
 MIDDLEWARE = [

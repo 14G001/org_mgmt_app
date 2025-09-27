@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
-class OrganizationConfig(AppConfig):
+class OrgMgmtAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'organization'
+    name = 'org_mgmt_app'

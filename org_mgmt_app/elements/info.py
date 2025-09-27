@@ -1,21 +1,9 @@
-FIELD_PARAM_IS_REQ = 0
-FIELD_PARAM_TYPE   = 1
-FIELD_PARAM_TITLE  = 2
-FIELD_PARAM_EXTRA_INFO = 3
+from app.app.element import NOTREQ, REQ, AppElm
 
-NOTREQ   = False
-REQ      = True
-
-
-class OrgElm:
-    def __init__(self, type, info):
-        self.type = type
-        self.info = info
-
-ORGANIZATION_ELEMENTS_INFO = [
-    OrgElm("address", {
+ORG_MGMT_APP_ELMS_INFO = [
+    AppElm("address", {
         "private": {
-            "model": "organization.Address"
+            "model": "org_mgmt_app.Address"
         },
         "public": {
             "title": {
@@ -33,9 +21,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("address_x_organization", {
+    AppElm("address_x_organization", {
         "private": {
-            "model": "organization.AddressXOrganization"
+            "model": "org_mgmt_app.AddressXOrganization"
         },
         "public": {
             "title": {
@@ -49,9 +37,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("organization_type", {
+    AppElm("organization_type", {
         "private": {
-            "model": "organization.OrganizationType"
+            "model": "org_mgmt_app.OrganizationType"
         },
         "public": {
             "title": {
@@ -64,9 +52,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         }
     }),
-    OrgElm("organization", {
+    AppElm("organization", {
         "private": {
-            "model": "organization.Organization"
+            "model": "org_mgmt_app.Organization"
         },
         "public": {
             "title": {
@@ -80,9 +68,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         }
     }),
-    OrgElm("person_role_type", {
+    AppElm("person_role_type", {
         "private": {
-            "model": "organization.PersonRoleType"
+            "model": "org_mgmt_app.PersonRoleType"
         },
         "public": {
             "title": {
@@ -95,9 +83,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("person_role", {
+    AppElm("person_role", {
         "private": {
-            "model": "organization.PersonRole"
+            "model": "org_mgmt_app.PersonRole"
         },
         "public": {
             "title": {
@@ -113,9 +101,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("person", {
+    AppElm("person", {
         "private": {
-            "model": "organization.Person",
+            "model": "org_mgmt_app.Person",
         },
         "public": {
             "title": {
@@ -132,9 +120,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("currency", {
+    AppElm("currency", {
         "private": {
-            "model": "organization.Currency"
+            "model": "org_mgmt_app.Currency"
         },
         "public": {
             "title": {
@@ -147,9 +135,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("money_donation", {
+    AppElm("money_donation", {
         "private": {
-            "model": "organization.MoneyDonation"
+            "model": "org_mgmt_app.MoneyDonation"
         },
         "public": {
             "title": {
@@ -166,9 +154,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("object_type", {
+    AppElm("object_type", {
         "private": {
-            "model": "organization.ObjectType"
+            "model": "org_mgmt_app.ObjectType"
         },
         "public": {
             "title": {
@@ -181,9 +169,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("object", {
+    AppElm("object", {
         "private": {
-            "model": "organization.Object"
+            "model": "org_mgmt_app.Object"
         },
         "public": {
             "title": {
@@ -198,9 +186,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("object_donation", {
+    AppElm("object_donation", {
         "private": {
-            "model": "organization.ObjectDonation"
+            "model": "org_mgmt_app.ObjectDonation"
         },
         "public": {
             "title": {
@@ -216,9 +204,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("object_pass_type", {
+    AppElm("object_pass_type", {
         "private": {
-            "model": "organization.ObjectPassType"
+            "model": "org_mgmt_app.ObjectPassType"
         },
         "public": {
             "title": {
@@ -231,9 +219,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("object_pass", {
+    AppElm("object_pass", {
         "private": {
-            "model": "organization.ObjectPass"
+            "model": "org_mgmt_app.ObjectPass"
         },
         "public": {
             "title": {
@@ -249,9 +237,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("service_type", {
+    AppElm("service_type", {
         "private": {
-            "model": "organization.ServiceType"
+            "model": "org_mgmt_app.ServiceType"
         },
         "public": {
             "title": {
@@ -264,9 +252,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("service_donation", {
+    AppElm("service_donation", {
         "private": {
-            "model": "organization.ServiceDonation"
+            "model": "org_mgmt_app.ServiceDonation"
         },
         "public": {
             "title": {
@@ -286,9 +274,9 @@ ORGANIZATION_ELEMENTS_INFO = [
             },
         },
     }),
-    OrgElm("expenditure", {
+    AppElm("expenditure", {
         "private": {
-            "model": "organization.Expenditure"
+            "model": "org_mgmt_app.Expenditure"
         },
         "public": {
             "title": {

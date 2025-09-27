@@ -38,6 +38,12 @@ class SubjectXStudent(m.Model):
     student = m.ForeignKey(Person , null=False, on_delete=m.CASCADE)
     class Meta:
         unique_together = (("subject","student",),)
+class ClassAttendance(m.Model):
+    subject_x_student = m.ForeignKey(SubjectXStudent, null=False, on_delete=m.CASCADE)
+    date              = m.DateField(null=False)
+    class Meta:
+        unique_together = (("subject_x_student","date",),)
+
 class NoteXStudent(m.Model):
     exam    = m.ForeignKey(SubjectExam, null=False, on_delete=m.CASCADE)
     student = m.ForeignKey(Person     , null=False, on_delete=m.CASCADE)

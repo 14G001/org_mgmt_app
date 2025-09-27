@@ -33,7 +33,7 @@ class UiView(AppView):
         return super().dispatch(request, app, *args, **kwargs)
 
 class SecureView(AppView):
-    def validate_message(self, request):
+    def validate_message(self, request, app):
         return None
     def dispatch(self, request, app, *args, **kwargs):
         error = self.validate_app(request, app)
@@ -42,7 +42,7 @@ class SecureView(AppView):
         if (not app.endswith(EXAMPLE_APP_INDICATOR)
             and not is_user_logged_in(request)):
             return resource_not_exists() # For security reasons; this endpoints should not reveal its existance to not logged users.
-        error_response = self.validate_message(request)
+        error_response = self.validate_message(request, app)
         if None != error_response:
             return error_response
         return super().dispatch(request, app, *args, **kwargs)

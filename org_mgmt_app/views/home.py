@@ -1,11 +1,9 @@
 from app.view import UiView, SecureView
 from app.responses import ok
 from app.render import send_template
-from organization.views.utils.list_item_fields import get_item_list_section
-from organization.test_values.init import init_organization_test_values
-from organization.elements.elements import get_org_elms_public_info
-
-SECTION_TYPES = list(get_org_elms_public_info().keys())
+from org_mgmt_app.views.utils.list_item_fields import get_item_list_section
+from app.test_values.init import init_db_test_values
+from app.app.elements import get_app_section_types
 
 class AppHomeView(UiView):
     def get(self, request, app):
@@ -13,9 +11,9 @@ class AppHomeView(UiView):
 
 class HomeItemsView(SecureView):
     def get(self, request, app):
-        init_organization_test_values(app)
+        init_db_test_values(app)
         sections = []
-        for list_item_section in SECTION_TYPES:
+        for list_item_section in get_app_section_types(app):
             sections.append(get_item_list_section(app, list_item_section))
         return ok(sections=sections)
         

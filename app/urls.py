@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from session.views import LoginView, LogoutView
-from organization.views.home import AppHomeView, HomeItemsView
-from organization.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
+from org_mgmt_app.views.home import AppHomeView, HomeItemsView
+from org_mgmt_app.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
 from app.views import HomeView
 
 urlpatterns = [
