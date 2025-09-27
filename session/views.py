@@ -17,7 +17,7 @@ class LoginView(AppView):
         print(f"REDIRECT 2> {next_url}")
         return redirect(next_url)
     def get(self, request, app):
-        req_err = self.validate_app(app)
+        req_err = self.validate_app(request, app)
         if req_err != None:
             return req_err
         if (app.endswith(EXAMPLE_APP_INDICATOR)
@@ -25,7 +25,7 @@ class LoginView(AppView):
             return self.redirect_to_original_url(request)
         return send_template(request, app, 'login.html')
     def post(self, request, app):
-        req_err = self.validate_app(app)
+        req_err = self.validate_app(request, app)
         if req_err != None:
             return req_err
         if is_user_logged_in(request):
@@ -33,7 +33,7 @@ class LoginView(AppView):
         data = json.loads(request.body)
         user = authenticate(
             request,
-            username=f"{app}/{data.get('username')}",
+            username=f"{app}/{data.get('email')}",
             password=data.get('password')
         )
         if user is not None:
@@ -43,7 +43,7 @@ class LoginView(AppView):
     
 class LogoutView(AppView):
     def post(self, request, app):
-        req_err = self.validate_app(app)
+        req_err = self.validate_app(request, app)
         if req_err != None:
             return req_err
         if app.endswith(EXAMPLE_APP_INDICATOR):

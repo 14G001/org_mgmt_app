@@ -2,18 +2,23 @@ from django.views import View
 from user.logged_in import is_user_logged_in
 from django.shortcuts import redirect
 from security.urls import is_url_secure
-from app.responses import resource_not_exists
+from app.responses import resource_not_exists, access_denied
 from app.settings import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
 
 class AppView(View):
-    def validate_app(self, app):
+    def validate_app(self, request, app):
+        user = request.user
+        if (not app.endswith(EXAMPLE_APP_INDICATOR)
+            and user.is_authenticated
+            and user.app.name != app):
+            return access_denied()
         if app not in AVAILABLE_APPS:
             return resource_not_exists()
         return None
 
 class UiView(AppView):
     def dispatch(self, request, app, *args, **kwargs):
-        error = self.validate_app(app)
+        error = self.validate_app(request, app)
         if error != None:
             return error
         if (not app.endswith(EXAMPLE_APP_INDICATOR)
@@ -31,7 +36,7 @@ class SecureView(AppView):
     def validate_message(self, request):
         return None
     def dispatch(self, request, app, *args, **kwargs):
-        error = self.validate_app(app)
+        error = self.validate_app(request, app)
         if error != None:
             return error
         if (not app.endswith(EXAMPLE_APP_INDICATOR)
