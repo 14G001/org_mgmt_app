@@ -12,7 +12,7 @@ runcommand("rd /s /q .\\user\\migrations .\\organization\\migrations")
 for db_filename in DB_FILENAMES:
     runcommand(f"del {db_filename}")
 runcommand(
-    f"python manage.py makemigrations"
+    f"python manage.py makemigrations user"
     f" && python manage.py migrate --database=default")
 for db in DBS:
     runcommand(

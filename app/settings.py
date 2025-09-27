@@ -37,6 +37,7 @@ AVAILABLE_APPS = get_available_apps(
     ('org_mgmt_app'    ,"Organización Actual",),
     ('ensenaxargentina',"Enseñá X Argentina" ,),)
 
+AUTH_USER_MODEL = "user.User"
 
 ALLOWED_HOSTS = [
     'iagoapps.pythonanywhere.com',

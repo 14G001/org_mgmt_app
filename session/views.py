@@ -33,7 +33,7 @@ class LoginView(AppView):
         data = json.loads(request.body)
         user = authenticate(
             request,
-            username=data.get('username'),
+            username=f"{app}/{data.get('username')}",
             password=data.get('password')
         )
         if user is not None:
