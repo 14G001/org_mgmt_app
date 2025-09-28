@@ -37,7 +37,7 @@ def init_ensenaxargentina_db_test_values(app):
         or Address.objects.using(app).exists()):
         return
     
-    usr_admin     = create_test_user(app, "complete_control"         , "test_admin"    )
+    usr_admin     = create_test_user(app, "admin"                    , "test_admin"    )
     usr_accinfmgr = create_test_user(app, "accounts_and_info_manager", "test_accinfmgr")
     teacher_users = [
         create_test_user(app, "teacher", "test_teacher1"),

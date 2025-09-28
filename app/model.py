@@ -1,5 +1,5 @@
 import django.db.models as m
-from app.settings import USERS_APP
+from user.settings import USERS_APP
 
 class AppQuerySet(m.QuerySet):
     def using(self, alias):

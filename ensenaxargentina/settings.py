@@ -1,17 +1,17 @@
-from user.permissons import get_app_complete_user_permissons
+from user.permissons import get_admin_permissons
 from ensenaxargentina.elements import EXA_APP_ELMS_INFO
 from django.db.models import Q
 
 def get_ensenaxargentina_app_info():
     return {
-        "title":"Enseñá X Argentina",
+        "title":"Enseñá X Argentina Campus",
         "user_types": {
-            "complete_control": {
+            "admin": {
                 "title": "Admin",
-                "permissons": get_app_complete_user_permissons(EXA_APP_ELMS_INFO)
+                "permissons": get_admin_permissons(EXA_APP_ELMS_INFO)
             },
             "accounts_and_info_manager" : {
-                "title": "Accounts and info manager",
+                "title": "Gestión de cuentas y información",
                 "permissons": {
                     "user"   : {"actions":"cru", "user_filter":"id", "filter":Q(type__value__in=["teacher","student"])},
                     "address": {"actions": "cru"},
@@ -19,7 +19,7 @@ def get_ensenaxargentina_app_info():
                 }
             },
             "teacher" : {
-                "title": "Teacher",
+                "title": "Profesor",
                 "permissons": {
                     "user"             : {"actions":"r", "user_filter":"id", "filter":Q(type__value="student")},
                     "address"          : {"actions":"r"  },
@@ -35,7 +35,7 @@ def get_ensenaxargentina_app_info():
                 }
             },
             "student" : {
-                "title": "Student",
+                "title": "Alumno",
                 "permissons": {
                     "user"             : {"actions":"r", "user_filter":"id"                },
                     "address"          : {"actions":"r", "user_filter":"schools__subjects__students"},

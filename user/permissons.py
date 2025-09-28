@@ -1,5 +1,20 @@
-def get_app_complete_user_permissons(app_section_types):
+from user.settings import USER_TYPE_MODEL, USER_MODEL
+
+def get_user_type_permissons(app_section_types, default_app_elm_settings):
+    # This should obtain data directly without using AVAILABLE_APPS element to avoid circular imports
     def_usr_prmsns = {}
-    for section_type in [app_elm.type for app_elm in app_section_types]: # This should be done that way to avoid circular imports
-        def_usr_prmsns[section_type] = {"actions":"crud"}
+    for app_elm in app_section_types:
+        def_usr_prmsns[app_elm.type] = default_app_elm_settings
     return def_usr_prmsns
+def get_admin_permissons(app_section_types):
+    admin_permissons = get_user_type_permissons(app_section_types, {"actions":"crud"})
+    if "user_type" in admin_permissons:
+        admin_permissons["user_type"] = {
+            "actions"   :"r",
+            "app_filter":"app",
+        }
+    if "user" in admin_permissons:
+        admin_permissons["user"] = {
+            "app_filter":"app",
+        }
+    return admin_permissons

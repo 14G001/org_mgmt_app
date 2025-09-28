@@ -1,4 +1,4 @@
-from app.app.common_elements.common_elements import AddressAppElm
+from app.app.common_elements.address import AddressAppElm
 from app.app.element import NOTREQ, REQ, AppElm
 
 ORG_MGMT_APP_ELMS_INFO = [

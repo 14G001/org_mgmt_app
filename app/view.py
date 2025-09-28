@@ -3,7 +3,8 @@ from user.logged_in import is_user_logged_in
 from django.shortcuts import redirect
 from security.urls import is_url_secure
 from app.responses import resource_not_exists, access_denied
-from app.apps.info import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR, USERS_APP
+from app.apps.info import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
+from user.settings import USERS_APP
 from app.test_values.init import init_db_test_values
 
 class AppView(View):

@@ -12,6 +12,8 @@ class HomeItemsView(SecureView):
     def get(self, request, app):
         sections = []
         for list_item_section in get_app_section_types(app):
-            sections.append(get_item_list_section(app, list_item_section))
+            section = get_item_list_section(request, app, list_item_section)
+            if None != section:
+                sections.append(section)
         return ok(sections=sections)
         

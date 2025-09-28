@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from app.apps.info import AVAILABLE_APPS, USERS_APP
+from app.apps.info import AVAILABLE_APPS
+from user.settings import USERS_APP, USER_MODEL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = USER_MODEL
 
 ALLOWED_HOSTS = [
     'iagoapps.pythonanywhere.com',

@@ -3,11 +3,14 @@ from app.app.element import REQ, NOTREQ, AppElm
 # WARNING: App that uses the following AppElms should be using "default" database.
 # RECOMMENDED: Include AppElms in a single app that use "default" database using USER_APP_ELEMENTS macro.
 
+DEBUG_ALL_APPS = False # Only for tests: shows all available apps appart of current app
+
 class AppAppElm(AppElm):
     def __init__(self):
         super().__init__("app", {
             "private": {
-                "model"       : "user.App"
+                "model"       : "user.App",
+                "app_filter"  : ""
             },
             "public": {
                 "title": {
@@ -20,9 +23,9 @@ class AppAppElm(AppElm):
                 },
             },
         })
-class UserTypeAppElm(AppElm): # WARNING: App that uses this AppElm should be using "default" database
-    def __init__(self):
-        super().__init__("user_type", {
+class UserTypeAppElm(AppElm):
+    def get_info(self):
+        info = {
             "private": {
                 "model"       : "user.UserType"
             },
@@ -31,14 +34,21 @@ class UserTypeAppElm(AppElm): # WARNING: App that uses this AppElm should be usi
                     "singular": "Tipo de usuario" ,
                     "plural"  : "Tipos de usuarios",
                 },
-                "list_item_fields": ["app","value"],
+                "list_item_fields": ["title"],
                 "fields": {
-                    "app"     : [REQ, "app", "Aplicación"],
-                    "value"   : [REQ, "str", "Tipo"      ],
+                    "value"   : [REQ, "str", "ID"  ],
+                    "title"   : [REQ, "str", "Tipo"],
                 },
             },
-        })
-class UserAppElm(AppElm): # WARNING: App that uses this AppElm should be using "default" database
+        }
+        if DEBUG_ALL_APPS:
+            public_info = info["public"]
+            public_info["list_item_fields"].insert(0, "app")
+            public_info["fields"]["app"] = [REQ, "app", "Aplicación"]
+        return info
+    def __init__(self):
+        super().__init__("user_type", self.get_info())
+class UserAppElm(AppElm):
     def __init__(self):
         super().__init__("user", {
             "private": {
@@ -58,8 +68,13 @@ class UserAppElm(AppElm): # WARNING: App that uses this AppElm should be using "
             },
         })
 
-USER_APP_ELEMENTS = [
-    AppAppElm     (),
-    UserTypeAppElm(),
-    UserAppElm    (),
-]
+def get_user_app_elements():
+    user_app_elements = []
+    if DEBUG_ALL_APPS:
+        user_app_elements.append(AppAppElm())
+    user_app_elements += [
+        UserTypeAppElm(),
+        UserAppElm    (),
+    ]
+    return user_app_elements
+USER_APP_ELEMENTS = get_user_app_elements()

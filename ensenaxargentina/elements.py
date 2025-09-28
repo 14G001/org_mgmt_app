@@ -1,5 +1,5 @@
 from app.app.common_elements.user import USER_APP_ELEMENTS
-from app.app.common_elements.common_elements import AddressAppElm
+from app.app.common_elements.address import AddressAppElm
 from app.app.element import NOTREQ, REQ, AppElm
 
 EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
@@ -97,9 +97,9 @@ EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             },
             "list_item_fields": ["exam", "student", "note"],
             "fields": {
-                "exam"   : [REQ, "subject_exam"   , "Examen"    ],
-                "student": [REQ, "student", "Estudiante"],
-                "note"   : [REQ, "int"    , "Nota"      ],
+                "exam"   : [REQ, "subject_exam", "Examen"    ],
+                "student": [REQ, "user"        , "Estudiante"],
+                "note"   : [REQ, "int"         , "Nota"      ],
             },
         },
     }),

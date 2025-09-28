@@ -5,8 +5,8 @@ from user.logged_in import is_user_logged_in
 from app.responses import ok, error
 from app.render import send_template
 from app.view import AppView
-from app.apps.info import EXAMPLE_APP_INDICATOR, USERS_APP
-from user.models import User
+from app.apps.info import EXAMPLE_APP_INDICATOR
+from user.settings import USERS_APP
 import json
 
 class LoginView(AppView):
