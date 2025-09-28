@@ -5,7 +5,8 @@ from user.logged_in import is_user_logged_in
 from app.responses import ok, error
 from app.render import send_template
 from app.view import AppView
-from app.settings import EXAMPLE_APP_INDICATOR
+from app.apps.info import EXAMPLE_APP_INDICATOR, USERS_APP
+from user.models import User
 import json
 
 class LoginView(AppView):
@@ -20,7 +21,8 @@ class LoginView(AppView):
         req_err = self.validate_app(request, app)
         if req_err != None:
             return req_err
-        if (app.endswith(EXAMPLE_APP_INDICATOR)
+        if ((app.endswith(EXAMPLE_APP_INDICATOR)
+            and not app.startswith(USERS_APP))
             or is_user_logged_in(request)):
             return self.redirect_to_original_url(request)
         return send_template(request, app, 'login.html')
@@ -33,7 +35,7 @@ class LoginView(AppView):
         data = json.loads(request.body)
         user = authenticate(
             request,
-            username=f"{app}/{data.get('email')}",
+            username=f"{app}/{data.get('username')}",
             password=data.get('password')
         )
         if user is not None:
@@ -46,7 +48,8 @@ class LogoutView(AppView):
         req_err = self.validate_app(request, app)
         if req_err != None:
             return req_err
-        if app.endswith(EXAMPLE_APP_INDICATOR):
+        if (app.endswith(EXAMPLE_APP_INDICATOR)
+            and not app.startswith(USERS_APP)):
             return error(500, "Example app version")
         logout(request) # Removes session from server
         return ok()

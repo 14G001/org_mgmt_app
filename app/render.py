@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from app.settings import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
+from app.apps.info import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
 
 def send_template(request, app, path):
     is_example_app_version = app.endswith(EXAMPLE_APP_INDICATOR)
     app_name = None
     if app.startswith("org_mgmt_app"):
-        app_name = "ONG"
+        app_name = "ONG Admin"
     else:
-        app_name = AVAILABLE_APPS[app]["name"]
-    title = f"{app_name} Admin"
+        app_name = AVAILABLE_APPS[app]["title"]
+    title = app_name
     if is_example_app_version:
         title += " - Versión de Ejemplo"
     return render(request, path, {

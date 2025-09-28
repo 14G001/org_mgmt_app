@@ -3,7 +3,8 @@ from user.logged_in import is_user_logged_in
 from django.shortcuts import redirect
 from security.urls import is_url_secure
 from app.responses import resource_not_exists, access_denied
-from app.settings import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
+from app.apps.info import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR, USERS_APP
+from app.test_values.init import init_db_test_values
 
 class AppView(View):
     def validate_app(self, request, app):
@@ -14,6 +15,7 @@ class AppView(View):
             return access_denied()
         if app not in AVAILABLE_APPS:
             return resource_not_exists()
+        init_db_test_values(app)
         return None
 
 class UiView(AppView):
@@ -21,7 +23,8 @@ class UiView(AppView):
         error = self.validate_app(request, app)
         if error != None:
             return error
-        if (not app.endswith(EXAMPLE_APP_INDICATOR)
+        if ((not app.endswith(EXAMPLE_APP_INDICATOR)
+            or app.startswith(USERS_APP))
             and not is_user_logged_in(request)):
             next_url = request.get_full_path()[len("/")+len(app):]
             last_url_part = ''

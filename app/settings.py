@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from app.apps.info import AVAILABLE_APPS, USERS_APP
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -24,26 +24,6 @@ SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-EXAMPLE_APP_INDICATOR = '_example'
-
-APP_TYPE_ORG_MGMT_APP = 0
-APP_TYPE_EXA_TEACHERS = 1
-
-ORG_MGMT_APPS = {
-    'org_mgmt_app'    :{"name":"Organización Actual"},
-    'ensenaxargentina':{"name":"Enseñá X Argentina" },
-}
-
-def get_available_apps(**kwargs):
-    available_apps = {}
-    for app in kwargs:
-        available_apps[app                            ] = kwargs[app]
-        available_apps[f"{app}{EXAMPLE_APP_INDICATOR}"] = kwargs[app]
-    return available_apps
-AVAILABLE_APPS = get_available_apps(
-    exa_teachers={"name":"Enseñá X Argentina - Profesores"},
-    **ORG_MGMT_APPS)
 
 AUTH_USER_MODEL = "user.User"
 
@@ -71,7 +51,7 @@ INSTALLED_APPS = [
     'user',
     'session',
     'org_mgmt_app',
-    'exa_teachers',
+    'ensenaxargentina',
 ]
 
 MIDDLEWARE = [
@@ -107,18 +87,19 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+def create_db(file_name):
+    return {
+        "ENGINE": 'django.db.backends.sqlite3',
+        "NAME": BASE_DIR / file_name,
+    }
+
 def get_databases():
     databases = {
-        "default": { # Required for sessions, users, etc
-            "ENGINE": 'django.db.backends.sqlite3',
-            "NAME": BASE_DIR / "db.sqlite3",
-        },
+        "default": create_db("db.sqlite3") # Required for sessions, users, etc
     }
     for app in AVAILABLE_APPS:
-        databases[app] = {
-            "ENGINE": 'django.db.backends.sqlite3',
-            "NAME": BASE_DIR / f"{app}_db.sqlite3",
-        }
+        if not app.startswith(USERS_APP):
+            databases[app] = create_db(f"{app}_db.sqlite3")
     return databases
 DATABASES = get_databases()
 

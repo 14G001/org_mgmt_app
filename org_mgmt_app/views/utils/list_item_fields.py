@@ -34,6 +34,7 @@ def get_items_list(app, item_type, order_by, fields, queryset):
     final_fields = []
     field_x_num_of_subfields = {}
     item_type_info = get_app_elms_public_info(app)[item_type]
+    print(f"aver: {item_type_info}")
     item_type_fields = item_type_info["fields"]
     print(f"item type: {item_type}")
     print(fields)
@@ -47,6 +48,8 @@ def get_items_list(app, item_type, order_by, fields, queryset):
     section_items = []
     print("FINAL FIELDS")
     print(final_fields)
+    print(f"QSET USING: {queryset._db}")
+    print(f"QSET MODEL: {queryset.model}")
     for item in list(queryset.order_by(*order_by).values_list(*final_fields)):
         item_fields = []
         item_field_counter = 0

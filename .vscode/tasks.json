@@ -11,6 +11,11 @@
             "type": "shell",
             "command": "python init_dbs.py",
             "problemMatcher": []
+        }, {
+            "label": "Test something",
+            "type": "shell",
+            "command": "python test.py",
+            "problemMatcher": []
         }
     ]
 }

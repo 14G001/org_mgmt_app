@@ -1,6 +1,7 @@
+from app.model import AppModel
 import django.db.models as m
 
-class AddressModelBase(m.Model):
+class AddressModelBase(AppModel):
     street_address1 = m.TextField(null=False)
     street_address2 = m.TextField(null=True )
     city            = m.TextField(null=True )
@@ -11,7 +12,7 @@ class AddressModelBase(m.Model):
     class Meta:
         abstract = True
 
-class PersonModelBase(m.Model):
+class PersonModelBase(AppModel):
     national_id     = m.TextField(null=False, unique=True) # Person identifier per country; for example: SSN in United States, DNI in Argentina, etc...
     name            = m.TextField(null=False)
     surname         = m.TextField(null=False)

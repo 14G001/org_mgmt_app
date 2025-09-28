@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.apps import apps
 from app.responses import error, ok
 from app.view import SecureView
-from app.settings import EXAMPLE_APP_INDICATOR
+from app.apps.info import EXAMPLE_APP_INDICATOR
 from app.app.elements import get_app_elms_public_info, get_app_elms_public_info_str, get_app_elms_private_info
 from app.app.element import FIELD_PARAM_TYPE
 from org_mgmt_app.views.utils.list_item_fields import get_items_list, get_item_list_section

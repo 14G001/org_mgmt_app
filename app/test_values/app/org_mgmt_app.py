@@ -2,12 +2,8 @@ from org_mgmt_app.models import (Address, AddressXOrganization, OrganizationType
     Organization, PersonRoleType, PersonRole, Person, Currency, MoneyDonation,
     ObjectType, Object, ObjectDonation, ObjectPassType, ObjectPass,
     ServiceType, ServiceDonation, Expenditure)
-from app.test_values.utils import get_person_id
-from app.settings import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
-
-def create_models(app, model, records):
-    objects = [model(**record) for record in records]
-    return model.objects.using(app).bulk_create(objects)
+from app.test_values.utils import create_models, get_person_id
+from app.apps.info import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
 
 def create_test_organization_addresses(app, addresses, organization):
     branches = create_models(app, AddressXOrganization, [
@@ -16,7 +12,7 @@ def create_test_organization_addresses(app, addresses, organization):
     ])
     return branches
 def get_person_role_types(app):
-    if app.startswith("ensenaxargentina"):
+    if app.startswith("exa_org_mgmt_app"):
         return [
             {"value":"Docente/Participante"  },
             {"value":"Formadores de Docentes"},
@@ -40,7 +36,7 @@ def create_test_organizations(app):
     ])
 
     organization = create_models(app, Organization, [
-        {"type":organization_type[0], "name":AVAILABLE_APPS[app]["name"]},
+        {"type":organization_type[0], "name":AVAILABLE_APPS[app]["title"]},
         {"type":organization_type[0], "name":"ONG Externa 1"   },
         {"type":organization_type[0], "name":"ONG Externa 2"   },
         {"type":organization_type[3], "name":"Empresa 1"       },

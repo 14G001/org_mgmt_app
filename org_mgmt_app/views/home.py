@@ -2,7 +2,6 @@ from app.view import UiView, SecureView
 from app.responses import ok
 from app.render import send_template
 from org_mgmt_app.views.utils.list_item_fields import get_item_list_section
-from app.test_values.init import init_db_test_values
 from app.app.elements import get_app_section_types
 
 class AppHomeView(UiView):
@@ -11,7 +10,6 @@ class AppHomeView(UiView):
 
 class HomeItemsView(SecureView):
     def get(self, request, app):
-        init_db_test_values(app)
         sections = []
         for list_item_section in get_app_section_types(app):
             sections.append(get_item_list_section(app, list_item_section))

@@ -5,7 +5,7 @@ import { sendMessage } from './global/app/messaging.js';
 async function sendLogInMessage() {
     const username = getById('username_input').value,
         password = getById('password_input').value;
-    return await sendMessage('/login/', {email:username,password});
+    return await sendMessage('/login/', {username,password});
 }
 function showLoginError(response) {
     let errorText = null;
