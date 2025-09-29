@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.db.models import Q
 from app.app.elements import get_app_elms_private_info, get_app_elms_public_info
 from app.app.element import FIELD_PARAM_TITLE, FIELD_PARAM_TYPE
 from app.apps.info import AVAILABLE_APPS
@@ -25,28 +26,34 @@ def get_item_values_to_request(app, item_type_fields, field_name, final_fields, 
             num_of_subfields += 1
     return num_of_subfields
     
+def setup_item_list_user_type_filter(request, app, user_item_type_permissons):
+    final_filter = Q()
+    _filter = user_item_type_permissons.get("filter")
+    if None != _filter:
+        final_filter = final_filter & _filter
+    user_filter = user_item_type_permissons.get("user_filter")
+    if None != user_filter:
+        final_filter = final_filter & Q(**{user_filter:request.user})
+    app_filter = user_item_type_permissons.get("app_filter")
+    if None != app_filter:
+        final_filter = final_filter & Q(**{f"{app_filter}__name":app})
+    filter_getter = user_item_type_permissons.get("filter_getter")
+    if None != filter_getter:
+        final_filter = final_filter & filter_getter(request, app)
+    return final_filter
 def get_items_list(request, app, item_type, order_by, fields, queryset=None):
     # TODO: Remove 'order_by' param and add order_by on a queryset outside sending it here.
     app_elms_private_info = get_app_elms_private_info(app)
     item_type_model = apps.get_model(*app_elms_private_info[item_type]["model"].split("."))
     if queryset == None:
         queryset = item_type_model.objects.using(app).filter()
-    user_type = request.user.type.value
+    user_type = request.user.type.name
     user_item_type_permissons = (AVAILABLE_APPS
         [app]["user_types"][user_type]["permissons"].get(item_type))
     if None == user_item_type_permissons:
         return None
-    print("permissons")
-    print(user_item_type_permissons)
-    _filter = user_item_type_permissons.get("filter")
-    if None != _filter:
-        queryset = queryset.filter(_filter)
-    user_filter = user_item_type_permissons.get("user_filter")
-    if None != user_filter:
-        queryset = queryset.filter(**{user_filter:request.user})
-    app_filter = user_item_type_permissons.get("app_filter")
-    if None != app_filter:
-        queryset = queryset.filter(**{f"{app_filter}__name":app})
+    queryset = queryset.filter(
+        setup_item_list_user_type_filter(request, app, user_item_type_permissons))
     final_fields = []
     field_x_num_of_subfields = {}
     item_type_info = get_app_elms_public_info(app)[item_type]
@@ -58,7 +65,7 @@ def get_items_list(request, app, item_type, order_by, fields, queryset=None):
     if "id" not in fields:
         final_fields.append("id")
     section_items = []
-    for item in list(queryset.order_by(*order_by).values_list(*final_fields)):
+    for item in list(queryset.distinct().order_by(*order_by).values_list(*final_fields)):
         item_fields = []
         item_field_counter = 0
         for field_name in fields:
@@ -78,8 +85,6 @@ def get_items_list(request, app, item_type, order_by, fields, queryset=None):
             "id": item[final_fields.index("id")],
             "fields": item_fields,
         })
-    print("QUERY")
-    print(queryset.query)
     return section_items
 
 def get_item_type_field_titles(item_type_fields, list_item_fields):

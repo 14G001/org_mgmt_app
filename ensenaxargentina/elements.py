@@ -44,7 +44,7 @@ EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
                 "singular": "Materia" ,
                 "plural"  : "Materias",
             },
-            "list_item_fields": ["title", "school"],
+            "list_item_fields": ["school", "title"],
             "fields": {
                 "school"    :[REQ, "school"      , "Escuela"              ],
                 "type"      :[REQ, "subject_type", "Tipo de materia"      ],
@@ -78,7 +78,8 @@ EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
                 "singular": "Examen"  ,
                 "plural"  : "Examenes",
             },
-            "list_item_fields": ["subject", "type", "date"],
+            "list_item_fields": ["subject", "date", "type"],
+            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "subject": [REQ, "subject"  , "Materia"       ],
                 "type"   : [REQ, "exam_type", "Tipo de examen"],
@@ -96,6 +97,7 @@ EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
                 "plural"  : "Notas de alumnos",
             },
             "list_item_fields": ["exam", "student", "note"],
+            "list_item_sort_criteria": ["-exam__date"],
             "fields": {
                 "exam"   : [REQ, "subject_exam", "Examen"    ],
                 "student": [REQ, "user"        , "Estudiante"],
@@ -145,6 +147,7 @@ EXA_APP_ELMS_INFO = USER_APP_ELEMENTS + [
                 "plural"  : "Asistencias de estudiantes",
             },
             "list_item_fields": ["subject_x_student", "date"],
+            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "subject_x_student": [REQ, "subject_x_student", "Materia"],
                 "date"             : [REQ, "date"             , "Fecha"  ],

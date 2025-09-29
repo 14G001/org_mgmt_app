@@ -14,22 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+#from django.contrib import admin
 from django.urls import path
-from session.views import LoginView, LogoutView
-from org_mgmt_app.views.home import AppHomeView, HomeItemsView
-from org_mgmt_app.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
-from app.views import HomeView
+from user.views import TestUsersView
+from session.views import TestLoginView, LoginView, LogoutView
+from app.views.home import HomeView, HomeItemsView
+from app.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
+from app.views.index import IndexView
 
 urlpatterns = [
-    path('', HomeView.as_view(), name="home"),
+    path('', IndexView.as_view(), name="index"),
 
     # Organization management app endpoints:
     # Paths with HTML GUI for users:
     #path('admin/', admin.site.urls),
-    path('<str:app>/login/' , LoginView  .as_view(), name='login'),
-    path('<str:app>/logout/', LogoutView .as_view(), name='logout'),
-    path('<str:app>/'       , AppHomeView.as_view(), name='app_home'),
+
+    path('<str:app>/test_users/', TestUsersView.as_view(), name='test_users'),
+    path('<str:app>/test_login/', TestLoginView.as_view(), name='test_login'),
+    path('<str:app>/login/'     , LoginView    .as_view(), name='login'     ),
+    path('<str:app>/logout/'    , LogoutView   .as_view(), name='logout'    ),
+    path('<str:app>/'           , HomeView     .as_view(), name='app_home'  ),
     path('<str:app>/home_items/', HomeItemsView.as_view(), name='home_items'),
 
     # Paths with useful tools for application:

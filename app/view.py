@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from security.urls import is_url_secure
 from app.responses import resource_not_exists, access_denied
 from app.apps.info import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
-from user.settings import USERS_APP
+from user.settings import USER_APPS
 from app.test_values.init import init_db_test_values
 
 class AppView(View):
@@ -25,7 +25,7 @@ class UiView(AppView):
         if error != None:
             return error
         if ((not app.endswith(EXAMPLE_APP_INDICATOR)
-            or app.startswith(USERS_APP))
+            or app in USER_APPS)
             and not is_user_logged_in(request)):
             next_url = request.get_full_path()[len("/")+len(app):]
             last_url_part = ''

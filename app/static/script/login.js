@@ -19,7 +19,7 @@ function showLoginError(response) {
     }
     getById("error_message").innerText = errorText;
 }
-async function sendLogInRequest() {
+async function sendLoginRequest() {
     const response = await sendLogInMessage();
     if (response.ok) {
         redirectToOriginalWebsite();
@@ -28,4 +28,4 @@ async function sendLogInRequest() {
     showLoginError(response);
 }
 
-getById("login_button").onclick = sendLogInRequest;
+getById("login_button").onclick = sendLoginRequest;

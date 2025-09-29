@@ -1,9 +1,9 @@
 import django.db.models as m
-from user.settings import USERS_APP
+from user.settings import USER_APPS
 
 class AppQuerySet(m.QuerySet):
     def using(self, alias):
-        if alias.startswith(USERS_APP):
+        if alias in USER_APPS:
             alias = "default"
         return super().using(alias)
 class AppModelManager(m.Manager):

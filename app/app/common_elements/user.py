@@ -59,10 +59,12 @@ class UserAppElm(AppElm):
                     "singular": "Usuario" ,
                     "plural"  : "Usuarios",
                 },
-                "list_item_fields": ["username", "email", "type"],
+                "list_item_fields": ["username", "name", "surname", "type"],
                 "fields": {
                     "email"   :[REQ, "str"      , "Email"            ],
                     "username":[REQ, "str"      , "Nombre de usuario"],
+                    "name"    :[REQ, "str"      , "Nombre"           ],
+                    "surname" :[REQ, "str"      , "Apellido"         ],
                     "type"    :[REQ, "user_type", "Tipo de usuario"  ],
                 },
             },

@@ -2,7 +2,8 @@ from ensenaxargentina.models import (Address, School, SubjectType,
     Subject, ExamType, SubjectExam, NoteXStudent, SubjectXTeacher,
     SubjectXStudent, ClassAttendance, Form, FormFieldType, FormField,)
 from app.apps.info import EXAMPLE_APP_INDICATOR
-from app.test_values.utils import create_models, create_test_user
+from app.test_values.utils import create_models
+from app.test_values.user import create_test_user
 
 def create_test_subjects_x_item(item_type, subjects, item):
     test_subjects_x_item = []
@@ -19,8 +20,8 @@ def create_test_subject_x_student(app, subjects, students):
     test_stdt_clss_atdc = []
     test_student_notes = []
     for subj_x_stdt in subject_x_student:
-        for month in range(4, 9):
-            for day in range(1, 29):
+        for month in range(6, 8):
+            for day in range(1, 21):
                 test_stdt_clss_atdc.append({
                     "subject_x_student":subj_x_stdt,
                     "date":f"2025-{str(month).rjust(2,"0")}-{str(day).rjust(2,"0")}"})
@@ -37,17 +38,17 @@ def init_ensenaxargentina_db_test_values(app):
         or Address.objects.using(app).exists()):
         return
     
-    usr_admin     = create_test_user(app, "admin"                    , "test_admin"    )
-    usr_accinfmgr = create_test_user(app, "accounts_and_info_manager", "test_accinfmgr")
+    usr_admin     = create_test_user(app, "admin"                    , "test_admin"    , "CAdmin" )
+    usr_accinfmgr = create_test_user(app, "accounts_and_info_manager", "test_accinfmgr", "CGestor")
     teacher_users = [
-        create_test_user(app, "teacher", "test_teacher1"),
-        create_test_user(app, "teacher", "test_teacher2"),
+        create_test_user(app, "teacher", "test_teacher1", "PJuan" ),
+        create_test_user(app, "teacher", "test_teacher2", "PLucía"),
     ]
     student_users = [
-        create_test_user(app, "student", "test_student1"),
-        create_test_user(app, "student", "test_student2"),
-        create_test_user(app, "student", "test_student3"),
-        create_test_user(app, "student", "test_student4"),
+        create_test_user(app, "student", "test_student1", "AJose"  ),
+        create_test_user(app, "student", "test_student2", "AAlma"  ),
+        create_test_user(app, "student", "test_student3", "AJulian"),
+        create_test_user(app, "student", "test_student4", "ASofia" ),
     ]
 
     addresses = create_models(app, Address, [

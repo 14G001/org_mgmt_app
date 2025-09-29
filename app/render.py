@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from app.apps.info import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
 
-def send_template(request, app, path):
+def template(request, app, path):
     title = None
     if app.startswith("org_mgmt_app"):
         title = "ONG Admin"
