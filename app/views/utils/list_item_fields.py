@@ -2,7 +2,8 @@ from django.apps import apps
 from django.db.models import Q
 from app.app.elements import get_app_elms_private_info, get_app_elms_public_info
 from app.app.element import FIELD_PARAM_TITLE, FIELD_PARAM_TYPE
-from app.apps.info import AVAILABLE_APPS
+from app.apps.info import get_user_app_elm_permissons
+from user.models import User
 
 def get_item_values_to_request(app, item_type_fields, field_name, final_fields, prefilter=""):
     field_type = ("int" if "id" == field_name
@@ -41,15 +42,14 @@ def setup_item_list_user_type_filter(request, app, user_item_type_permissons):
     if None != filter_getter:
         final_filter = final_filter & filter_getter(request, app)
     return final_filter
-def get_items_list(request, app, item_type, order_by, fields, queryset=None):
-    # TODO: Remove 'order_by' param and add order_by on a queryset outside sending it here.
-    app_elms_private_info = get_app_elms_private_info(app)
-    item_type_model = apps.get_model(*app_elms_private_info[item_type]["model"].split("."))
+def get_items_list(request, app, item_type, fields, queryset=None, user_type=None):
+    # 'user_type' field is used to reduce queries
+    item_type_model = apps.get_model(*get_app_elms_private_info(app)[item_type]["model"].split("."))
     if queryset == None:
         queryset = item_type_model.objects.using(app).filter()
-    user_type = request.user.type.name
-    user_item_type_permissons = (AVAILABLE_APPS
-        [app]["user_types"][user_type]["permissons"].get(item_type))
+    if user_type == None:
+        user_type = User.objects.get_type(request)
+    user_item_type_permissons = get_user_app_elm_permissons(app, user_type, item_type)
     if None == user_item_type_permissons:
         return None
     queryset = queryset.filter(
@@ -65,7 +65,7 @@ def get_items_list(request, app, item_type, order_by, fields, queryset=None):
     if "id" not in fields:
         final_fields.append("id")
     section_items = []
-    for item in list(queryset.distinct().order_by(*order_by).values_list(*final_fields)):
+    for item in list(queryset.distinct().values_list(*final_fields)):
         item_fields = []
         item_field_counter = 0
         for field_name in fields:
@@ -93,17 +93,22 @@ def get_item_type_field_titles(item_type_fields, list_item_fields):
         field_titles.append("ID" if "id" == field
             else item_type_fields[field][FIELD_PARAM_TITLE])
     return field_titles
-def get_item_list_section(request, app, item_type):
-    queryset = None
+def get_item_list_section(request, app, item_type, user_type=None):
+    if user_type == None:
+        user_type = User.objects.get_type(request)
     app_elms_public_info = get_app_elms_public_info(app)
-    sort_criteria = app_elms_public_info[item_type].get("list_item_sort_criteria", ["id"])
     list_item_fields = app_elms_public_info[item_type]["list_item_fields"]
-    items = get_items_list(request, app, item_type, sort_criteria, list_item_fields, queryset)
+    item_type_model = apps.get_model(*get_app_elms_private_info(app)[item_type]["model"].split("."))
+    sort_criteria = app_elms_public_info[item_type].get("list_item_sort_criteria", ["id"])
+    queryset = item_type_model.objects.order_by(*sort_criteria)
+    items = get_items_list(request, app, item_type, list_item_fields,
+        queryset=queryset, user_type=user_type)
     if None == items:
         return None
     return {
-        "title": app_elms_public_info[item_type]["title"],
-        "item_type": item_type,
+        "title"       : app_elms_public_info[item_type]["title"],
+        "item_type"   : item_type,
+        "actions"     : get_user_app_elm_permissons(app, user_type, item_type)["actions"],
         "field_titles": get_item_type_field_titles(app_elms_public_info[item_type]["fields"], list_item_fields),
-        "items": items,
+        "items"       : items,
     }

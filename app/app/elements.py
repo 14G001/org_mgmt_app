@@ -41,13 +41,3 @@ def get_app_elms_public_info_str(app):
             json.dumps(get_app_elms_public_info(app)))
         app_element_set["public_str"] = app_elms_public_info_str
     return app_elms_public_info_str
-
-def get_app_section_types(app):
-    app_element_set = get_app_element_set(app)
-    app_element_types = app_element_set.get("element_types")
-    if None != app_element_types:
-        return app_element_types
-    app_elms_complete_info = _get_app_elms_complete_info(app)
-    app_element_types = list(app_elms_complete_info.keys())
-    app_element_set["element_types"] = app_element_types
-    return app_element_types

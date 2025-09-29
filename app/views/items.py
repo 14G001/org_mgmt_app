@@ -60,7 +60,7 @@ class CreateItemView(ItemTypeView):
             created_item_fields = []
             for field in list_item_fields:
                 created_item_fields.append(getattr(created_item, field))
-            created_item_list_fields = get_items_list(request, app, self.item_type, [], list_item_fields, 
+            created_item_list_fields = get_items_list(request, app, self.item_type, list_item_fields, 
                 self.item_model.objects.using(app).filter(id=created_item.id))
             # TODO: Add specific items updating logic (will require to transfer table generation logic from admin.html to a javascript file)
             return ok(created_item_fields=created_item_list_fields)
@@ -81,7 +81,7 @@ class ItemView(ItemTypeView):
             fields = list(item_type_fields.keys())
             item_fields = self.item_model.objects.using(app).values(*fields).get(id=item_id)
         elif value_types == "info":
-            item_fields = get_items_list(request, app, self.item_type, [],
+            item_fields = get_items_list(request, app, self.item_type,
                 list(self.item_public_info["fields"].keys()), self.item_model.objects.using(app).filter(id=item_id))
         else:
             return error(400, f"'{value_types}' value for 'value_type' field is not allowed.")

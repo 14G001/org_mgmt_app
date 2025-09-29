@@ -50,26 +50,35 @@ async function initListItems(sectionInfo, tbody, items, itemListToRefresh) {
                 }
             }
         }
+        const availableActions = sectionInfo["actions"];
+        if ("" === availableActions) {
+            return;
+        }
         const itemOptionsContainer = createElement(itemTr, "td");
         const itemOptions = createElement(itemOptionsContainer, "div", "item_options");
-        const itemEditButton = createElement(itemOptions, "button", "item_edit_button");
-        createText(itemEditButton, "p", "Modificar");
-        itemEditButton.onclick = async (event)=>{
-            event.stopPropagation();
-            await getItemManagementButtonAction(itemType, itemListToRefresh,
-                new ItemManagementWindow(ITM_MGMT_WIN_TYPE_EDIT_ITM, itemId))();
-        };
-        const itemRemoveButton = createElement(itemOptions, "button", "item_remove_button");
-        createText(itemRemoveButton, "p", "Eliminar");
-        const itemStrFields = [];
-        for (const fieldNum in itemFieldValues) {
-            const value = itemFieldValues[fieldNum];
-            if (value) {
-                itemStrFields.push(value);
-            }
+        if (availableActions.includes("u")) {
+            const itemEditButton = createElement(itemOptions, "button", "item_edit_button");
+            createText(itemEditButton, "p", "Modificar");
+            itemEditButton.onclick = async (event)=>{
+                event.stopPropagation();
+                await getItemManagementButtonAction(itemType, itemListToRefresh,
+                    new ItemManagementWindow(ITM_MGMT_WIN_TYPE_EDIT_ITM, itemId))();
+            };
         }
-        itemRemoveButton.onclick = getItemRemoveButtonAction(sectionInfo,
-            itemId, itemStrFields.join(" - "), itemListToRefresh);
+        if (availableActions.includes("d")) {
+            const itemRemoveButton = createElement(itemOptions, "button", "item_remove_button");
+            createText(itemRemoveButton, "p", "Eliminar");
+            const itemStrFields = [];
+            for (const fieldNum in itemFieldValues) {
+                const value = itemFieldValues[fieldNum];
+                if (value) {
+                    itemStrFields.push(value);
+                }
+            }
+            itemRemoveButton.onclick = getItemRemoveButtonAction(sectionInfo,
+                itemId, itemStrFields.join(" - "), itemListToRefresh
+            );
+        }
     }
 }
 async function initSectionItemList(itemList, sectionInfo) {
@@ -82,9 +91,17 @@ async function initSectionItemList(itemList, sectionInfo) {
         const th = createElement(headTr, "th");
         createText(th, "div", fieldTitle);
     }
-    const newItemTh = createElement(headTr, "th");
-    const newItemThButton = createElement(newItemTh, "button", "org_elms_adm_item_addition_button");
-    createText(newItemThButton, "p", "Nuevo +");
+    const availableActions = sectionInfo["actions"];
+    let newItemThButton = null;
+    let addCreateButton = false;
+    if ("" !== availableActions) {
+        const newItemTh = createElement(headTr, "th");
+        addCreateButton = availableActions.includes("c");
+        if (addCreateButton) {
+            newItemThButton = createElement(newItemTh, "button", "org_elms_adm_item_addition_button");
+            createText(newItemThButton, "p", "Nuevo +");
+        }
+    }
 
     const tbody = createElement(itemList, "tbody");
     const itemListInfo = new ItemList(listItemType,
@@ -98,14 +115,18 @@ async function initSectionItemList(itemList, sectionInfo) {
             await initListItems(sectionInfo, tbody, items, itemListInfo);
         }
     );
-    newItemThButton.onclick = getItemManagementButtonAction(
-        listItemType, itemListInfo, new ItemManagementWindow(ITM_MGMT_WIN_TYPE_NEW_ITM));
+    if (addCreateButton) {
+        newItemThButton.onclick = getItemManagementButtonAction(
+            listItemType, itemListInfo, new ItemManagementWindow(ITM_MGMT_WIN_TYPE_NEW_ITM));
+    }
     await itemListInfo.refresh(sectionInfo["items"]);
 }
 
 async function init() {
     const response = await sendMessage(`/home_items/`);
     const sections = await response.json();
+    console.log("HOME ITEMS")
+    console.log(JSON.stringify(sections, null, 2))
     const sectionsInfo = sections["sections"];
     const sectionsContainer = getById("organization_elements");
     for (const sectionNum in sectionsInfo) {

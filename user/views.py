@@ -13,9 +13,6 @@ class TestUsersView(SecureView):
             return resource_not_exists()
         request.user = User.objects.filter(
             type__app__name=app, type__name="admin").first()
-        print("USER")
-        print(request.user)
-        users = get_items_list(request, app, "user", [], ["username","name","type"])
-        print(users)
+        users = get_items_list(request, app, "user", ["username","name","type"])
         return ok(
             users=users)

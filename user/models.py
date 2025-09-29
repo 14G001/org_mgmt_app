@@ -71,6 +71,9 @@ class CustomUserManager(AppModelManager, BaseUserManager):
         user.type         = UserType.objects.get(name="complete_control")
         user.save(using=self._db)
         return user
+    def get_type(self, request):
+        return (self.filter(id=request.user.id)
+            .values_list("type__name").first()[0])
 
 class User(AbstractBaseUser, PermissionsMixin):
     app        = m.ForeignKey(App, null=False, on_delete=m.CASCADE)

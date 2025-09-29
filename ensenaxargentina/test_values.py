@@ -21,10 +21,13 @@ def create_test_subject_x_student(app, subjects, students):
     test_student_notes = []
     for subj_x_stdt in subject_x_student:
         for month in range(6, 8):
-            for day in range(1, 21):
-                test_stdt_clss_atdc.append({
-                    "subject_x_student":subj_x_stdt,
-                    "date":f"2025-{str(month).rjust(2,"0")}-{str(day).rjust(2,"0")}"})
+            for week in range(0, 3):
+                for day in range(1, 5):
+                    test_stdt_clss_atdc.append({
+                        "subject_x_student":subj_x_stdt,
+                        "date":("2025"
+                            + f"-{str(month).rjust(2,"0")}"
+                            + f"-{str((week*7)+day).rjust(2,"0")}")})
         for exam in subj_x_stdt.subject.exams.all():
             test_student_notes.append(
                 {"exam":exam, "student":subj_x_stdt.student, "note":7})

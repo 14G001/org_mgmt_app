@@ -18,3 +18,7 @@ AVAILABLE_APPS = get_app_versions(
     exa_org_mgmt_app = get_org_mgmt_app_info("Enseñá X Argentina Admin" ),
     ensenaxargentina = get_ensenaxargentina_app_info()             ,
 )
+
+def get_user_app_elm_permissons(app, user_type, app_elm_type):
+    return (AVAILABLE_APPS
+        [app]["user_types"][user_type]["permissons"].get(app_elm_type))
