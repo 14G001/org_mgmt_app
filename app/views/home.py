@@ -21,6 +21,7 @@ class HomeItemsView(SecureView):
             user_type_app_elm_settings = user_type_app_elm_permissons[app_elm_type].get("settings")
             if (None == user_type_app_elm_settings
                 or False != user_type_app_elm_settings.get("display_at_home")):
+                print("A")
                 section = get_item_list_section(
                     request, app, app_elm_type, user_type=user_type)
                 if None != section:

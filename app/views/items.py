@@ -45,6 +45,7 @@ class ItemListView(ItemTypeView):
             items=list(self.item_model.objects.using(app).values(*list_item_fields)))
 class ItemsSectionView(ItemTypeView):
     def get(self, request, app):
+        print("B")
         return ok(
             section=get_item_list_section(
             request, app, self.item_type))

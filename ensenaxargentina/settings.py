@@ -20,9 +20,12 @@ def get_ensenaxargentina_app_info():
             "accounts_and_info_manager" : {
                 "title": "Gestor de cuentas y información",
                 "permissons": {
-                    "user"   : {"actions":"cu", "filter": Q(type__name__in=["teacher","student"])},
-                    "address": {"actions": "cu"},
-                    "school" : {"actions": "cu"},
+                    "user_type": {"actions":"cu", "app_filter":"app", "filter": Q(name__in=["teacher","student"]),
+                        "settings": {"display_at_home":False,}
+                    },
+                    "user"     : {"actions":"cu", "app_filter":"app", "filter": Q(type__name__in=["teacher","student"])},
+                    "address"  : {"actions": "cu"},
+                    "school"   : {"actions": "cu"},
                 }
             },
             "teacher" : {

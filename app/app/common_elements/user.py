@@ -9,8 +9,7 @@ class AppAppElm(AppElm):
     def __init__(self):
         super().__init__("app", {
             "private": {
-                "model"       : "user.App",
-                "app_filter"  : ""
+                "model"       : "user.App"
             },
             "public": {
                 "title": {

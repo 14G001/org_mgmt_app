@@ -7,14 +7,15 @@ def get_user_type_permissons(app_section_types, default_app_elm_settings):
         def_usr_prmsns[app_elm.type] = default_app_elm_settings
     return def_usr_prmsns
 def get_admin_permissons(app_section_types):
-    admin_permissons = get_user_type_permissons(app_section_types, {"actions":"crud"})
+    admin_permissons = get_user_type_permissons(app_section_types, {"actions":"cud"})
     if "user_type" in admin_permissons:
         admin_permissons["user_type"] = {
-            "actions"   :"r",
+            "actions"   :""   ,
             "app_filter":"app",
         }
     if "user" in admin_permissons:
         admin_permissons["user"] = {
+            "actions"   :"cud",
             "app_filter":"app",
         }
     return admin_permissons

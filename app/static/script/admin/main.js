@@ -51,33 +51,32 @@ async function initListItems(sectionInfo, tbody, items, itemListToRefresh) {
             }
         }
         const availableActions = sectionInfo["actions"];
-        if ("" === availableActions) {
-            return;
-        }
-        const itemOptionsContainer = createElement(itemTr, "td");
-        const itemOptions = createElement(itemOptionsContainer, "div", "item_options");
-        if (availableActions.includes("u")) {
-            const itemEditButton = createElement(itemOptions, "button", "item_edit_button");
-            createText(itemEditButton, "p", "Modificar");
-            itemEditButton.onclick = async (event)=>{
-                event.stopPropagation();
-                await getItemManagementButtonAction(itemType, itemListToRefresh,
-                    new ItemManagementWindow(ITM_MGMT_WIN_TYPE_EDIT_ITM, itemId))();
-            };
-        }
-        if (availableActions.includes("d")) {
-            const itemRemoveButton = createElement(itemOptions, "button", "item_remove_button");
-            createText(itemRemoveButton, "p", "Eliminar");
-            const itemStrFields = [];
-            for (const fieldNum in itemFieldValues) {
-                const value = itemFieldValues[fieldNum];
-                if (value) {
-                    itemStrFields.push(value);
-                }
+        if ("" !== availableActions) {
+            const itemOptionsContainer = createElement(itemTr, "td");
+            const itemOptions = createElement(itemOptionsContainer, "div", "item_options");
+            if (availableActions.includes("u")) {
+                const itemEditButton = createElement(itemOptions, "button", "item_edit_button");
+                createText(itemEditButton, "p", "Modificar");
+                itemEditButton.onclick = async (event)=>{
+                    event.stopPropagation();
+                    await getItemManagementButtonAction(itemType, itemListToRefresh,
+                        new ItemManagementWindow(ITM_MGMT_WIN_TYPE_EDIT_ITM, itemId))();
+                };
             }
-            itemRemoveButton.onclick = getItemRemoveButtonAction(sectionInfo,
-                itemId, itemStrFields.join(" - "), itemListToRefresh
-            );
+            if (availableActions.includes("d")) {
+                const itemRemoveButton = createElement(itemOptions, "button", "item_remove_button");
+                createText(itemRemoveButton, "p", "Eliminar");
+                const itemStrFields = [];
+                for (const fieldNum in itemFieldValues) {
+                    const value = itemFieldValues[fieldNum];
+                    if (value) {
+                        itemStrFields.push(value);
+                    }
+                }
+                itemRemoveButton.onclick = getItemRemoveButtonAction(sectionInfo,
+                    itemId, itemStrFields.join(" - "), itemListToRefresh
+                );
+            }
         }
     }
 }
@@ -112,12 +111,19 @@ async function initSectionItemList(itemList, sectionInfo) {
             return items;
         },
         async (items)=>{
+            if ("" === availableActions) {
+                console.log("Items")
+                console.log(JSON.stringify(items, null, 2))
+            }
             await initListItems(sectionInfo, tbody, items, itemListInfo);
         }
     );
     if (addCreateButton) {
         newItemThButton.onclick = getItemManagementButtonAction(
             listItemType, itemListInfo, new ItemManagementWindow(ITM_MGMT_WIN_TYPE_NEW_ITM));
+    }
+    if ("" === availableActions) {
+        console.log(`0 available actions for the following section: '${sectionInfo["item_type"]}'`)
     }
     await itemListInfo.refresh(sectionInfo["items"]);
 }

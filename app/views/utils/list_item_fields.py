@@ -97,6 +97,8 @@ def get_item_list_section(request, app, item_type, user_type=None):
     if user_type == None:
         user_type = User.objects.get_type(request)
     app_elms_public_info = get_app_elms_public_info(app)
+    print("ITEM TYPE")
+    print(item_type)
     list_item_fields = app_elms_public_info[item_type]["list_item_fields"]
     item_type_model = apps.get_model(*get_app_elms_private_info(app)[item_type]["model"].split("."))
     sort_criteria = app_elms_public_info[item_type].get("list_item_sort_criteria", ["id"])
@@ -105,10 +107,13 @@ def get_item_list_section(request, app, item_type, user_type=None):
         queryset=queryset, user_type=user_type)
     if None == items:
         return None
+    user_app_elm_permissons = get_user_app_elm_permissons(app, user_type, item_type)
+    print("UAEP")
+    print(user_app_elm_permissons)
     return {
         "title"       : app_elms_public_info[item_type]["title"],
         "item_type"   : item_type,
-        "actions"     : get_user_app_elm_permissons(app, user_type, item_type)["actions"],
+        "actions"     : user_app_elm_permissons["actions"],
         "field_titles": get_item_type_field_titles(app_elms_public_info[item_type]["fields"], list_item_fields),
         "items"       : items,
     }
