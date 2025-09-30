@@ -3,7 +3,7 @@ import { getAppName } from "./appName.js";
 
 export async function sendMessage(url, body, method) {
     const messageSettings = {
-        method: (method)?method:(body)?"POST":"GET",
+        method: (method)?method:"GET",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": getCookies()["csrftoken"],
@@ -33,14 +33,23 @@ export async function sendItemCreationMessage(form, itemType) {
     if (errors) {
         return null;
     }
-    const response = await sendMessage(`/new_item/?item_type=${itemType}`, form.getValues());
+    const response = await sendMessage(`/item/`,
+        {item_type:itemType, values:form.getValues()},
+        "POST");
     return response;
+}
+export async function sendItemDeletionMessage(sectionInfo, itemId) {
+    return await sendMessage(`/item/`,
+        {item_type:sectionInfo["item_type"], id:itemId},
+        "DELETE");
 }
 export async function sendItemUpdateMessage(form, itemType, itemId) {
     const errors = validateValues(form);
     if (errors) {
         return null;
     }
-    const response = await sendMessage(`/update_item/?item_type=${itemType}&item_id=${itemId}`, form.getValues(), "PATCH");
+    const response = await sendMessage(`/item/`,
+        {item_type:itemType, id:itemId, values:form.getValues()},
+        "PATCH");
     return response;
 } 

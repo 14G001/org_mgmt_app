@@ -2,7 +2,7 @@ from django.apps import apps
 from django.db.models import Q
 from app.app.elements import get_app_elms_private_info, get_app_elms_public_info
 from app.app.element import FIELD_PARAM_TITLE, FIELD_PARAM_TYPE
-from app.apps.info import get_user_app_elm_permissons
+from app.apps.info import get_user_permissons
 from user.models import User
 
 def get_item_values_to_request(app, item_type_fields, field_name, final_fields, prefilter=""):
@@ -27,7 +27,7 @@ def get_item_values_to_request(app, item_type_fields, field_name, final_fields, 
             num_of_subfields += 1
     return num_of_subfields
     
-def setup_item_list_user_type_filter(request, app, user_item_type_permissons):
+def get_user_type_allowed_items_filter(request, app, user_item_type_permissons):
     final_filter = Q()
     _filter = user_item_type_permissons.get("filter")
     if None != _filter:
@@ -42,18 +42,19 @@ def setup_item_list_user_type_filter(request, app, user_item_type_permissons):
     if None != filter_getter:
         final_filter = final_filter & filter_getter(request, app)
     return final_filter
-def get_items_list(request, app, item_type, fields, queryset=None, user_type=None):
+def get_items_list(request, app, user_type, item_type, fields, queryset=None):
     # 'user_type' field is used to reduce queries
-    item_type_model = apps.get_model(*get_app_elms_private_info(app)[item_type]["model"].split("."))
     if queryset == None:
+        item_type_model = apps.get_model(
+            *get_app_elms_private_info(app)[item_type]["model"].split("."))
         queryset = item_type_model.objects.using(app).filter()
-    if user_type == None:
-        user_type = User.objects.get_type(request)
-    user_item_type_permissons = get_user_app_elm_permissons(app, user_type, item_type)
-    if None == user_item_type_permissons:
+    user_app_elm_permissons = (
+        get_user_permissons(app, user_type)
+        .get(item_type))
+    if None == user_app_elm_permissons:
         return None
     queryset = queryset.filter(
-        setup_item_list_user_type_filter(request, app, user_item_type_permissons))
+        get_user_type_allowed_items_filter(request, app, user_app_elm_permissons))
     final_fields = []
     field_x_num_of_subfields = {}
     item_type_info = get_app_elms_public_info(app)[item_type]
@@ -93,27 +94,26 @@ def get_item_type_field_titles(item_type_fields, list_item_fields):
         field_titles.append("ID" if "id" == field
             else item_type_fields[field][FIELD_PARAM_TITLE])
     return field_titles
-def get_item_list_section(request, app, item_type, user_type=None):
-    if user_type == None:
-        user_type = User.objects.get_type(request)
-    app_elms_public_info = get_app_elms_public_info(app)
-    print("ITEM TYPE")
-    print(item_type)
-    list_item_fields = app_elms_public_info[item_type]["list_item_fields"]
-    item_type_model = apps.get_model(*get_app_elms_private_info(app)[item_type]["model"].split("."))
-    sort_criteria = app_elms_public_info[item_type].get("list_item_sort_criteria", ["id"])
-    queryset = item_type_model.objects.order_by(*sort_criteria)
-    items = get_items_list(request, app, item_type, list_item_fields,
-        queryset=queryset, user_type=user_type)
+def get_item_list_section(request, app, user_type, item_type):
+    item_type_pub_info  = get_app_elms_public_info (app)[item_type]
+    item_type_priv_info = get_app_elms_private_info(app)[item_type]
+    list_item_fields = item_type_pub_info["list_item_fields"]
+    item_type_model = apps.get_model(*item_type_priv_info["model"].split("."))
+    queryset = item_type_model.objects.order_by(
+        *item_type_priv_info.get("list_item_sort_criteria", ["id"]))
+    items = get_items_list(request, app, user_type,
+        item_type, list_item_fields, queryset=queryset)
     if None == items:
         return None
-    user_app_elm_permissons = get_user_app_elm_permissons(app, user_type, item_type)
+    user_app_elm_permissons = (
+        get_user_permissons(app, user_type)
+        .get(item_type))
     print("UAEP")
     print(user_app_elm_permissons)
     return {
-        "title"       : app_elms_public_info[item_type]["title"],
+        "title"       : item_type_pub_info["title"],
         "item_type"   : item_type,
         "actions"     : user_app_elm_permissons["actions"],
-        "field_titles": get_item_type_field_titles(app_elms_public_info[item_type]["fields"], list_item_fields),
+        "field_titles": get_item_type_field_titles(item_type_pub_info["fields"], list_item_fields),
         "items"       : items,
     }

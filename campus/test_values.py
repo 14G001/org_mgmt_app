@@ -1,4 +1,4 @@
-from ensenaxargentina.models import (Address, School, SubjectType,
+from campus.models import (Address, School, SubjectType,
     Subject, ExamType, SubjectExam, NoteXStudent, SubjectXTeacher,
     SubjectXStudent, ClassAttendance, Form, FormFieldType, FormField,)
 from app.apps.info import EXAMPLE_APP_INDICATOR
@@ -22,7 +22,7 @@ def create_test_subject_x_student(app, subjects, students):
     for subj_x_stdt in subject_x_student:
         for month in range(6, 8):
             for week in range(0, 3):
-                for day in range(1, 5):
+                for day in range(1, 6):
                     test_stdt_clss_atdc.append({
                         "subject_x_student":subj_x_stdt,
                         "date":("2025"
@@ -35,12 +35,13 @@ def create_test_subject_x_student(app, subjects, students):
     note_x_student = create_models(app, NoteXStudent, test_student_notes)
     return subject_x_student
 
-def init_ensenaxargentina_db_test_values(app):
+def init_campus_db_test_values(app):
     is_example_app = app.endswith(EXAMPLE_APP_INDICATOR)
     if (not is_example_app
         or Address.objects.using(app).exists()):
         return
     
+    usr_root      = create_test_user(app, "root"                     , "test_root"     , "CRoot"  )
     usr_admin     = create_test_user(app, "admin"                    , "test_admin"    , "CAdmin" )
     usr_accinfmgr = create_test_user(app, "accounts_and_info_manager", "test_accinfmgr", "CGestor")
     teacher_users = [

@@ -40,7 +40,7 @@ async function initItemManagementWindow(itemWindowInfo, itemTypesInfo, itemType,
     if (itemId) {
         const valueTypes = (isItemViewWindowType)? "info" : "value";
         const response = await sendMessage(
-            `/item_fields/?item_type=${itemType}&item_id=${itemId}&value_types=${valueTypes}`);
+            `/item/?item_type=${itemType}&id=${itemId}&value_types=${valueTypes}`);
         const responseJson = await response.json();
         defaultValues = responseJson["item_fields"];
         if (isItemViewWindowType) {

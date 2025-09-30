@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from app.apps.info import EXAMPLE_APP_INDICATOR, AVAILABLE_APPS
+from app.settings import DEBUG
 
 def template(request, app, path):
     title = None
@@ -8,4 +9,4 @@ def template(request, app, path):
     else:
         title = AVAILABLE_APPS[app]["title"]
     return render(request, path, {
-        "title":title, "example_version":app.endswith(EXAMPLE_APP_INDICATOR)})
+        "title":title, "example_version":not DEBUG and app.endswith(EXAMPLE_APP_INDICATOR)})

@@ -1,3 +1,2 @@
-USER_APPS      = ("ensenaxargentina", "ensenaxargentina_example",)
-USER_TYPE_MODEL = "user.UserType"
+USER_APPS      = ("campus", "campus_example",)
 USER_MODEL      = "user.User"

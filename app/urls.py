@@ -19,7 +19,7 @@ from django.urls import path
 from user.views import TestUsersView
 from session.views import TestLoginView, LoginView, LogoutView
 from app.views.home import HomeView, HomeItemsView
-from app.views.items import ItemsInfoView, ItemListView, ItemsSectionView, CreateItemView, ItemView, UpdateItemView, DeleteItemView
+from app.views.items import ItemsInfoView, ItemListView, ItemsSectionView, ItemView
 from app.views.index import IndexView
 
 urlpatterns = [
@@ -40,8 +40,5 @@ urlpatterns = [
     path('<str:app>/items_info/' , ItemsInfoView .as_view(), name='items_info' ),
     path('<str:app>/item_list/'  , ItemListView  .as_view(), name='item_list'  ),
     path('<str:app>/items_section/', ItemsSectionView.as_view(), name='items_section'),
-    path('<str:app>/new_item/'   , CreateItemView.as_view(), name='new_item'   ),
-    path('<str:app>/item_fields/', ItemView      .as_view(), name='item_fields'),
-    path('<str:app>/update_item/', UpdateItemView.as_view(), name='udpate_item'),
-    path('<str:app>/delete_item/', DeleteItemView.as_view(), name='delete_item'),
+    path('<str:app>/item/'       , ItemView      .as_view(), name='item'       ),
 ]

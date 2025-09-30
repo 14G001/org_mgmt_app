@@ -7,9 +7,9 @@ def get_app_versions(*args):
         apps.append(f"{app}_example")
     return apps
 
-ORG_MGMT_USER_APPS = get_app_versions("org_mgmt_app", "exa_org_mgmt_app")
-EXA_APPS           = get_app_versions("ensenaxargentina")
-USER_APPS = ORG_MGMT_USER_APPS + EXA_APPS
+ORG_MGMT_APPS = get_app_versions("org_mgmt_app", "exa_org_mgmt_app")
+CAMPUS_APPS   = get_app_versions("campus")
+APPS = ORG_MGMT_APPS + CAMPUS_APPS
 
 def runcommand(command):
     print(f"Run: {command}")
@@ -22,11 +22,11 @@ def migrate(logical_app, app):
         f" && python manage.py makemigrations {logical_app}"
         f" && python manage.py migrate --database={app}")
 
-del_migrations("user", "org_mgmt_app", "ensenaxargentina")
-DB_FILENAMES = ["db.sqlite3"] + [f"{db}_db.sqlite3" for db in USER_APPS]
+del_migrations("user", "org_mgmt_app", "campus")
+DB_FILENAMES = ["db.sqlite3"] + [f"{db}_db.sqlite3" for db in APPS]
 for db_filename in DB_FILENAMES:
     runcommand(f"del {db_filename}")
 migrate("user", "default")
-for app in ORG_MGMT_USER_APPS:
+for app in ORG_MGMT_APPS:
     migrate("org_mgmt_app", app)
-migrate("ensenaxargentina", "default")
+migrate("campus", "default")

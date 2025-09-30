@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5(jlrg7e5rb$ane+5pj%z!i8tcz4q5y&bv+jau2zb@ld#)a+0$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 AUTH_USER_MODEL = USER_MODEL
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'user',
     'session',
     'org_mgmt_app',
-    'ensenaxargentina',
+    'campus',
 ]
 
 MIDDLEWARE = [

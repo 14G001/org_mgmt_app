@@ -35,7 +35,6 @@ class UserTypeAppElm(AppElm):
                 },
                 "list_item_fields": ["title"],
                 "fields": {
-                    "value"   : [REQ, "str", "ID"  ],
                     "title"   : [REQ, "str", "Tipo"],
                 },
             },
@@ -51,14 +50,15 @@ class UserAppElm(AppElm):
     def __init__(self):
         super().__init__("user", {
             "private": {
-                "model"       : "user.User"
+                "model"       : "user.User",
+                "list_item_sort_criteria": ["type__title", "name", "surname"],
             },
             "public": {
                 "title": {
                     "singular": "Usuario" ,
                     "plural"  : "Usuarios",
                 },
-                "list_item_fields": ["username", "name", "surname", "type"],
+                "list_item_fields": ["type", "name", "surname", "username", ],
                 "fields": {
                     "email"   :[REQ, "str"      , "Email"            ],
                     "username":[REQ, "str"      , "Nombre de usuario"],

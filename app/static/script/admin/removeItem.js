@@ -1,4 +1,4 @@
-import { sendMessage } from "../global/app/messaging.js";
+import { sendItemDeletionMessage } from "../global/app/messaging.js";
 import { createElement, createText } from "../global/utils/dom/dom.js";
 import { createWindow } from "./window.js";
 
@@ -15,7 +15,7 @@ export function getItemRemoveButtonAction(sectionInfo, itemId, itemStr, itemList
         const confirmButton = createElement(optionButtonsContainer, "button");
         createText(confirmButton, "p", "Eliminar");
         confirmButton.onclick = async ()=>{
-            const response = await sendMessage(`/delete_item/?item_type=${sectionInfo["item_type"]}&item_id=${itemId}`, null, "DELETE");
+            const response = await sendItemDeletionMessage(sectionInfo, itemId);
             if (response.ok) {
                 itemListToRefresh.refresh();
             }

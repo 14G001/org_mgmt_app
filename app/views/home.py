@@ -2,8 +2,7 @@ from app.view import UiView, SecureView
 from app.responses import ok
 from app.render import template
 from app.views.utils.list_item_fields import get_item_list_section
-from user.models import User
-from app.apps.info import AVAILABLE_APPS
+from app.apps.info import get_user_type_settings
 
 class HomeView(UiView):
     def get(self, request, app):
@@ -11,19 +10,17 @@ class HomeView(UiView):
 
 class HomeItemsView(SecureView):
     def get(self, request, app):
-        user_type = User.objects.get_type(request)
-        user_type_app_elm_permissons = (AVAILABLE_APPS
-            [app]["user_types"][user_type]["permissons"])
+        user_type = self.user_type
+        user_type_settings = get_user_type_settings(app, user_type)
+        user_type_app_elm_permissons = user_type_settings["permissons"]
+        user_type_app_elm_settings   = user_type_settings.get("settings", {})
         sections = []
         for app_elm_type in list(user_type_app_elm_permissons.keys()):
-            print("APP ELM TYPE")
-            print(app_elm_type)
-            user_type_app_elm_settings = user_type_app_elm_permissons[app_elm_type].get("settings")
-            if (None == user_type_app_elm_settings
-                or False != user_type_app_elm_settings.get("display_at_home")):
-                print("A")
+            app_elm_settings = user_type_app_elm_settings.get(app_elm_type)
+            if (None == app_elm_settings
+                or False != app_elm_settings.get("display_at_home")):
                 section = get_item_list_section(
-                    request, app, app_elm_type, user_type=user_type)
+                    request, app, user_type, app_elm_type)
                 if None != section:
                     sections.append(section)
         return ok(sections=sections)

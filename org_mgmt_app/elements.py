@@ -86,6 +86,7 @@ ORG_MGMT_APP_ELMS_INFO = [
     AppElm("person", {
         "private": {
             "model": "org_mgmt_app.Person",
+            "list_item_sort_criteria": ["national_id"],
         },
         "public": {
             "title": {
@@ -93,7 +94,6 @@ ORG_MGMT_APP_ELMS_INFO = [
                 "plural"  : "Personas",
             },
             "list_item_fields"  : ["national_id", "name", "surname"],
-            "list_item_sort_criteria": ["national_id"],
             "fields": {
                 "national_id":[REQ  , "str"    , "DNI"       ],
                 "name"      :[REQ   , "str"    , "Nombre/s"  ],
@@ -119,7 +119,8 @@ ORG_MGMT_APP_ELMS_INFO = [
     }),
     AppElm("money_donation", {
         "private": {
-            "model": "org_mgmt_app.MoneyDonation"
+            "model": "org_mgmt_app.MoneyDonation",
+            "list_item_sort_criteria": ["-date"],
         },
         "public": {
             "title": {
@@ -127,7 +128,6 @@ ORG_MGMT_APP_ELMS_INFO = [
                 "plural"  : "Donaciones de dinero",
             },
             "list_item_fields": ["date","person","amount","currency"],
-            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "person"  :[REQ, "person"  , "Persona"],
                 "currency":[REQ, "currency", "Moneda" ],
@@ -170,7 +170,8 @@ ORG_MGMT_APP_ELMS_INFO = [
     }),
     AppElm("object_donation", {
         "private": {
-            "model": "org_mgmt_app.ObjectDonation"
+            "model": "org_mgmt_app.ObjectDonation",
+            "list_item_sort_criteria": ["-date"],
         },
         "public": {
             "title": {
@@ -178,7 +179,6 @@ ORG_MGMT_APP_ELMS_INFO = [
                 "plural"  : "Donación de objetos",
             },
             "list_item_fields": ["date", "donor", "object"],
-            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "object":[REQ, "object", "Objeto" ],
                 "donor" :[REQ, "person", "Donador"],
@@ -236,7 +236,8 @@ ORG_MGMT_APP_ELMS_INFO = [
     }),
     AppElm("service_donation", {
         "private": {
-            "model": "org_mgmt_app.ServiceDonation"
+            "model": "org_mgmt_app.ServiceDonation",
+            "list_item_sort_criteria": ["-date"],
         },
         "public": {
             "title": {
@@ -244,7 +245,6 @@ ORG_MGMT_APP_ELMS_INFO = [
                 "plural"  : "Donaciones de servicios",
             },
             "list_item_fields": ["date","type","donor","service_start_date"],
-            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "type" :[REQ, "service_type", "Tipo de servicio"],
                 "donor":[REQ, "person"      , "Donador"         ],
@@ -258,7 +258,8 @@ ORG_MGMT_APP_ELMS_INFO = [
     }),
     AppElm("expenditure", {
         "private": {
-            "model": "org_mgmt_app.Expenditure"
+            "model": "org_mgmt_app.Expenditure",
+            "list_item_sort_criteria": ["-date"],
         },
         "public": {
             "title": {
@@ -266,7 +267,6 @@ ORG_MGMT_APP_ELMS_INFO = [
                 "plural"  : "Gastos",
             },
             "list_item_fields": ["currency", "amount", "date"],
-            "list_item_sort_criteria": ["-date"],
             "fields": {
                 "currency":[REQ, "currency", "Moneda"],
                 "amount"  :[REQ, "float"   , "Monto" ],

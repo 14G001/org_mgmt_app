@@ -71,9 +71,6 @@ class CustomUserManager(AppModelManager, BaseUserManager):
         user.type         = UserType.objects.get(name="complete_control")
         user.save(using=self._db)
         return user
-    def get_type(self, request):
-        return (self.filter(id=request.user.id)
-            .values_list("type__name").first()[0])
 
 class User(AbstractBaseUser, PermissionsMixin):
     app        = m.ForeignKey(App, null=False, on_delete=m.CASCADE)
@@ -81,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username   = m.CharField(max_length=150, null=False)
     name       = m.CharField(max_length=60 , null=False)
     surname    = m.CharField(max_length=60 , null=False)
-    type       = m.ForeignKey(UserType, null=False, related_name="users", on_delete=m.CASCADE)
+    type       = m.ForeignKey(UserType, null=False, db_index=True, related_name="users", on_delete=m.CASCADE)
     identifier = m.CharField(max_length=300, null=False, unique=True)
     phone      = m.CharField(max_length=80 , null=True , unique=True)
     objects    = CustomUserManager()
@@ -94,3 +91,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     # App isolators:
     class Meta:
         unique_together = (("app","email"),("app","username"),)
+        indexes = (m.Index(fields=["name","surname"]),)

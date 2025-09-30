@@ -6,7 +6,7 @@ import django.db.models as m
 class Address(AddressModelBase):
     pass
 class School(AppModel):
-    name     = m.TextField(null=False)
+    name     = m.TextField(null=False, unique=True) # It is better to make it unique to avoid having school items identifying problems; in case 2 schools have the same name; something such as them direction data should be added to titles.
     address  = m.ForeignKey(Address, null=False, unique=True, related_name="schools", on_delete=m.CASCADE)
 class SubjectType(AppModel):
     name    = m.TextField(unique=True)
@@ -21,30 +21,30 @@ class Subject(AppModel):
 class ExamType(AppModel):
     value = m.TextField(unique=True)
 class SubjectExam(AppModel):
-    subject = m.ForeignKey(Subject , null=False, related_name="exams", on_delete=m.CASCADE)
-    type    = m.ForeignKey(ExamType, null=False, related_name="exams", on_delete=m.CASCADE)
-    date    = m.DateField(null=False)
+    subject = m.ForeignKey(Subject , null=False, db_index=True, related_name="exams", on_delete=m.CASCADE)
+    type    = m.ForeignKey(ExamType, null=False,                related_name="exams", on_delete=m.CASCADE)
+    date    = m.DateField(null=False, db_index=True)
 class NoteXStudent(AppModel):
-    exam    = m.ForeignKey(SubjectExam, null=False, on_delete=m.CASCADE)
-    student = m.ForeignKey(User       , null=False, on_delete=m.CASCADE)
+    exam    = m.ForeignKey(SubjectExam, null=False,                on_delete=m.CASCADE)
+    student = m.ForeignKey(User       , null=False, db_index=True, on_delete=m.CASCADE)
     note    = m.FloatField(null=False)
     class Meta:
         unique_together = (("exam","student",),)
 
 class SubjectXTeacher(AppModel):
-    subject = m.ForeignKey(Subject, null=False, related_name="teachers"        , on_delete=m.CASCADE)
-    teacher = m.ForeignKey(User   , null=False, related_name="teacher_subjects", on_delete=m.CASCADE)
+    subject = m.ForeignKey(Subject, null=False,                related_name="teachers"        , on_delete=m.CASCADE)
+    teacher = m.ForeignKey(User   , null=False, db_index=True, related_name="teacher_subjects", on_delete=m.CASCADE)
     class Meta:
         unique_together = (("subject","teacher",),)
 
 class SubjectXStudent(AppModel):
-    subject = m.ForeignKey(Subject, null=False, related_name="students"        , on_delete=m.CASCADE)
-    student = m.ForeignKey(User   , null=False, related_name="student_subjects", on_delete=m.CASCADE)
+    subject = m.ForeignKey(Subject, null=False,                related_name="students"        , on_delete=m.CASCADE)
+    student = m.ForeignKey(User   , null=False, db_index=True, related_name="student_subjects", on_delete=m.CASCADE)
     class Meta:
         unique_together = (("subject","student",),)
 class ClassAttendance(AppModel):
-    subject_x_student = m.ForeignKey(SubjectXStudent, null=False, on_delete=m.CASCADE)
-    date              = m.DateField(null=False)
+    subject_x_student = m.ForeignKey(SubjectXStudent, null=False, db_index=True, on_delete=m.CASCADE)
+    date              = m.DateField(null=False, db_index=True)
     class Meta:
         unique_together = (("subject_x_student","date",),)
 

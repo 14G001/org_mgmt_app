@@ -6,6 +6,7 @@ from app.responses import resource_not_exists, access_denied
 from app.apps.info import AVAILABLE_APPS, EXAMPLE_APP_INDICATOR
 from user.settings import USER_APPS
 from app.test_values.init import init_db_test_values
+from user.models import User
 
 class AppView(View):
     def validate_app(self, request, app):
@@ -38,11 +39,15 @@ class UiView(AppView):
 
 class SecureView(AppView):
     def validate_message(self, request, app):
+        if is_user_logged_in(request):
+            self.user_type = (User.objects.filter(id=request.user.id)
+                .values_list("type__name").first()[0])
         return None
     def dispatch(self, request, app, *args, **kwargs):
         error = self.validate_app(request, app)
         if error != None:
             return error
+        self.user_type = None
         if (not app.endswith(EXAMPLE_APP_INDICATOR)
             and not is_user_logged_in(request)):
             return resource_not_exists() # For security reasons; this endpoints should not reveal its existance to not logged users.
