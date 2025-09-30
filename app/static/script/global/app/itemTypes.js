@@ -25,7 +25,6 @@ class InputType {
             input.type = this.inputType;
         }
         input.onkeydown = (event)=>{
-            console.log("OKD0")
             return this.onKeyDown(event, input, maxDigits);
         }
         return input;
@@ -42,18 +41,14 @@ class FloatInputType extends IntegerInputType {
         if (super.validateKeyDownEventChars(event, input)) {
             return true;
         }
-        console.log("OKD3")
         const value = input.value;
         const valueLen = value.length;
         for (let charNum = 0; charNum < valueLen; charNum++) {
             if ([44,46].includes(value.charCodeAt(charNum))) { // Previously had a dot or comma
-                console.log("B1")
                 return false;
             }
         }
         const keyCode = event.key.charCodeAt(0);
-        console.log(keyCode)
-        console.log("B2")
         return [44,46].includes(keyCode); // Is a dot or comma
     }
 }

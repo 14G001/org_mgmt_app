@@ -5,8 +5,6 @@ import { redirectToOriginalWebsite } from './global/redirect.js';
 async function init() {
     const result = await sendMessage('/test_users/');
     const items  = await result.json();
-    console.log("RESPONSE")
-    console.log(JSON.stringify(items, null, 2))
     const userListContainer = getById("user_list_container");
     const users = items["users"];
     for (const userNumber in users) {

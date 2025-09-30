@@ -113,16 +113,10 @@ async function initSectionItemList(itemList, sectionInfo) {
         async ()=>{
             const response = await sendMessage(`/items_section/?item_type=${listItemType}`);
             const responseJson = await response.json();
-            console.log("RSP:")
-            console.log(JSON.stringify(responseJson, null, 2))
             const items = responseJson["section"]["items"]
             return items;
         },
         async (items)=>{
-            if ("" === availableActions) {
-                console.log("Items")
-                console.log(JSON.stringify(items, null, 2))
-            }
             await initListItems(sectionInfo, tbody, items, itemListInfo);
         }
     );
@@ -136,8 +130,6 @@ async function initSectionItemList(itemList, sectionInfo) {
 async function init() {
     const response = await sendMessage(`/home_items/`);
     const sections = await response.json();
-    console.log("HOME ITEMS")
-    console.log(JSON.stringify(sections, null, 2))
     const sectionsInfo = sections["sections"];
     const sectionsContainer = getById("organization_elements");
     for (const sectionNum in sectionsInfo) {

@@ -9,6 +9,5 @@ export function redirectToOriginalWebsite() {
     if (!nextUrl) {
         nextUrl = "/";
     }
-    console.log(nextUrl)
     redirect(`/${getAppName()}${nextUrl}`);
 }

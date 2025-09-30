@@ -94,8 +94,6 @@ export class ItemFieldInfo {
             const item = itemList[itemNum];
             const itemId = item["id"];
             const itemFields = item["fields"];
-            console.log(`ITEM ${itemId}`)
-            console.log(JSON.stringify(item, null, 2))
             const itemListTbodyTr = createElement(itemListTbody, "tr", `${relItemValueClassName}_item_list_item`);
             itemListTbodyTr.dataset.id = itemId;
             const firstItemPart = listItemInputBuilder.addFirstItemPart(itemListTbodyTr, relItemValueClassName);

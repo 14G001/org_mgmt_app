@@ -46,8 +46,6 @@ async function initItemManagementWindow(itemWindowInfo, itemTypesInfo, itemType,
         if (isItemViewWindowType) {
             defaultValues = defaultValues[0]["fields"];
         }
-        console.log("RESPANSAAA")
-        console.log(JSON.stringify(responseJson, null, 2))
     }
     let fieldNum = 0;
     for (const field in fields) {

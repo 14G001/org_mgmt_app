@@ -8,7 +8,6 @@ export class Form {
     }
     getValues() {
         const fields = {};
-        console.log(this.inputs)
         for (const inputNum in this.inputs) {
             const input = this.inputs[inputNum];
             let value = input.getValue();

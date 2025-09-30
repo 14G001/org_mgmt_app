@@ -22,7 +22,6 @@ function validateValues(form) {
     if (0 < errors.length) {
         for (const errorNum in errors) {
             const errorMessage = errors[errorNum];
-            console.log(`Error ${errorNum}: ${errorMessage}`)
         }
         return errors;
     }
