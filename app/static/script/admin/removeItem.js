@@ -1,3 +1,4 @@
+import { TITLE_SINGULAR } from "../global/app/fields.js";
 import { sendItemDeletionMessage } from "../global/app/messaging.js";
 import { createElement, createText } from "../global/utils/dom/dom.js";
 import { createWindow } from "./window.js";
@@ -8,7 +9,7 @@ export function getItemRemoveButtonAction(sectionInfo, itemId, itemStr, itemList
         const confirmationWindowInfo = createWindow("confirmation_window");
         const confirmationWindow = confirmationWindowInfo.element;
         const messageContainer = createElement(confirmationWindow, "div");
-        createText(messageContainer, "p", `Desea eliminar ${sectionInfo["title"]["singular"].toLowerCase()}?`);
+        createText(messageContainer, "p", `Desea eliminar ${sectionInfo["title"][TITLE_SINGULAR].toLowerCase()}?`);
         const itemDataContainer = createElement(confirmationWindow, "div");
         createText(itemDataContainer, "p", itemStr);
         const optionButtonsContainer = createElement(confirmationWindow, "div", "confirmation_window_option_buttons_container");

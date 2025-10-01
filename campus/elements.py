@@ -9,10 +9,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "model": "campus.School"
         },
         "public": {
-            "title": {
-                "singular": "Escuela" ,
-                "plural"  : "Escuelas",
-            },
+            "title": ["Escuela" ,"Escuelas"],
             "list_item_fields": ["name"],
             "fields": {
                 "name"        :[REQ, "str"    , "Nombre"   ],
@@ -25,10 +22,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "model": "campus.SubjectType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de Materia"  ,
-                "plural"  : "Tipos de Materias",
-            },
+            "title": ["Tipo de Materia"  ,"Tipos de Materias"],
             "list_item_fields": ["name"],
             "fields": {
                 "name":[REQ, "str", "Nombre"],
@@ -40,10 +34,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "model": "campus.Subject"
         },
         "public": {
-            "title": {
-                "singular": "Materia" ,
-                "plural"  : "Materias",
-            },
+            "title": ["Materia", "Materias"],
             "list_item_fields": ["school", "title"],
             "fields": {
                 "school"    :[REQ, "school"      , "Escuela"              ],
@@ -59,10 +50,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "model": "campus.ExamType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de Examen" ,
-                "plural"  : "Tipos de Examen",
-            },
+            "title": ["Tipo de Examen", "Tipos de Examen"],
             "list_item_fields": ["value"],
             "fields": {
                 "value": [REQ, "str", "Tipo"],
@@ -75,10 +63,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "list_item_sort_criteria": ["subject__school__name", "subject__title", "-date"],
         },
         "public": {
-            "title": {
-                "singular": "Examen"  ,
-                "plural"  : "Examenes",
-            },
+            "title": ["Examen", "Examenes"],
             "list_item_fields": ["subject", "date", "type"],
             "fields": {
                 "subject": [REQ, "subject"  , "Materia"       ],
@@ -92,10 +77,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "model": "campus.SubjectXTeacher"
         },
         "public": {
-            "title": {
-                "singular": "Materia de docente"  ,
-                "plural"  : "Materias de docentes",
-            },
+            "title": ["Materia de docente", "Materias de docentes"],
             "list_item_fields": ["teacher", "subject"],
             "fields": {
                 "subject": [REQ, "subject", "Materia" ],
@@ -109,10 +91,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "list_item_sort_criteria": ["student__name", "student__surname"],
         },
         "public": {
-            "title": {
-                "singular": "Materia de estudiante"  ,
-                "plural"  : "Materias de estudiantes",
-            },
+            "title": ["Materia de alumno", "Materias de alumnos"],
             "list_item_fields": ["student", "subject"],
             "fields": {
                 "subject": [REQ, "subject", "Materia"   ],
@@ -126,10 +105,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
             "list_item_sort_criteria": ["student__name", "student__surname", "exam__subject__title", "-exam__date"],
         },
         "public": {
-            "title": {
-                "singular": "Nota de alumno"  ,
-                "plural"  : "Notas de alumnos",
-            },
+            "title": ["Nota de alumno", "Notas de alumnos"],
             "list_item_fields": ["student", "exam", "note"],
             "fields": {
                 "exam"   : [REQ, "subject_exam", "Examen"    ],
@@ -146,10 +122,7 @@ CAMPUS_APP_ELMS_INFO = USER_APP_ELEMENTS + [
                 "subject_x_student__subject__title", "-date"],
         },
         "public": {
-            "title": {
-                "singular": "Asistencia de alumno"  ,
-                "plural"  : "Asistencias de alumnos",
-            },
+            "title": ["Asistencia de alumno", "Asistencias de alumnos"],
             "list_item_fields": ["subject_x_student", "date"],
             "fields": {
                 "subject_x_student": [REQ, "subject_x_student", "Materia de alumno"],

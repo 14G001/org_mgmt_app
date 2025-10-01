@@ -4,8 +4,9 @@ import { getGlobalVar } from '../global/utils/dom/dom.js';
 import { ItemList } from './itemList.js';
 import { getItemManagementButtonAction, ITM_MGMT_WIN_TYPE_VIEW_ITM, ITM_MGMT_WIN_TYPE_EDIT_ITM, ItemManagementWindow, ITM_MGMT_WIN_TYPE_NEW_ITM } from './manageItem.js';
 import { getItemRemoveButtonAction } from './removeItem.js';
-import { FIELD_PARAM_EXTRA_INFO } from '../global/app/itemFieldInfo.js';
+import { FIELD_PARAM_EXTRA_INFO } from '../global/app/fields.js';
 import { getItemsInfo } from '../global/app/itemsInfo.js';
+import { TITLE_PLURAL } from '../global/app/fields.js';
 
 function initItemFields(itemTr, itemTypeFields, fieldTypes, itemFieldValues) {
     const itemFields = [];
@@ -138,7 +139,7 @@ async function init() {
         const titleContainer = createElement(AppElmSection, "h2");
         const title = createElement(titleContainer, "div", "org_elm_admin_toggle_button");
         const arrow = createText(title, "div", "/\\");
-        createText(title, "p", sectionInfo["title"]["plural"]);
+        createText(title, "p", sectionInfo["title"][TITLE_PLURAL]);
         const itemList = createElement(AppElmSection, "table", "org_elms_adm_items");
         createSectionToggleButton(titleContainer, [itemList], arrow, false);
         await initSectionItemList(itemList, sectionInfo);

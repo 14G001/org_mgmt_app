@@ -12,10 +12,7 @@ class AppAppElm(AppElm):
                 "model"       : "user.App"
             },
             "public": {
-                "title": {
-                    "singular": "Aplicación"  ,
-                    "plural"  : "Aplicaciones",
-                },
+                "title": ["Aplicación", "Aplicaciones"],
                 "list_item_fields": ["name"],
                 "fields": {
                     "name": [REQ, "str", "ID"],
@@ -29,10 +26,7 @@ class UserTypeAppElm(AppElm):
                 "model"       : "user.UserType"
             },
             "public": {
-                "title": {
-                    "singular": "Tipo de usuario" ,
-                    "plural"  : "Tipos de usuarios",
-                },
+                "title": ["Tipo de usuario" ,"Tipos de usuarios"],
                 "list_item_fields": ["title"],
                 "fields": {
                     "title"   : [REQ, "str", "Tipo"],
@@ -54,10 +48,7 @@ class UserAppElm(AppElm):
                 "list_item_sort_criteria": ["type__title", "name", "surname"],
             },
             "public": {
-                "title": {
-                    "singular": "Usuario" ,
-                    "plural"  : "Usuarios",
-                },
+                "title": ["Usuario" ,"Usuarios"],
                 "list_item_fields": ["type", "name", "surname", "username", ],
                 "fields": {
                     "email"   :[REQ, "str"      , "Email"            ],

@@ -5,30 +5,18 @@ from app.responses import error, ok, not_authorized
 from app.view import SecureView
 from app.apps.info import EXAMPLE_APP_INDICATOR, get_user_permissons
 from app.app.elements import get_app_elms_public_info, get_app_elms_public_info_str, get_app_elms_private_info
-from app.app.element import FIELD_PARAM_TYPE
 from app.views.utils.list_item_fields import get_items_list, get_item_list_section, get_user_type_allowed_items_filter
+from app.views.utils.input import get_input_field_values
 from app.settings import DEBUG
 import json
 from abc import ABC
 
 VALUE_TYPES_FIELD_NAME = "value_types"
 
-def get_input_field_values(app, item_type, body):
-    app_elms_public_info = get_app_elms_public_info(app)
-    input_fields = body["values"]
-    input_field_values = {}
-    for field_name in input_fields:
-        field_value = input_fields[field_name]
-        field_info = app_elms_public_info[item_type]["fields"][field_name]
-        if field_info[FIELD_PARAM_TYPE] in app_elms_public_info:
-            field_name = f"{field_name}_id"
-        input_field_values[field_name] = field_value
-    return input_field_values
-
 class ItemsInfoView(SecureView):
     def get(self, request, app):
         return HttpResponse(get_app_elms_public_info_str(app))
-    
+
 class ItemTypeView(SecureView, ABC):
     def validate_message(self, request, app):
         error_response = super().validate_message(request, app)
@@ -67,7 +55,7 @@ class ItemsSectionView(ItemTypeView):
     def get(self, request, app):
         return ok(
             section=get_item_list_section(
-            request, app, self.user_type, self.item_type))
+            self, request, app, self.item_type))
     
 class ItemView(ItemTypeView):
     def validate_message(self, request, app):
@@ -83,7 +71,7 @@ class ItemView(ItemTypeView):
             can_user_access_that_item = (
                 self.item_model.objects.filter(
                     Q(id=item_id)
-                    & get_user_type_allowed_items_filter(request, app, self.user_app_elm_permissons))
+                    & get_user_type_allowed_items_filter(self, request, app, self.user_app_elm_permissons))
                 .exists())
             if not can_user_access_that_item:
                 # You can test and ensure this works using campus_example app and choosing a teacher user; then you can try accessing the following endpoint and you will notice you will be able to receive information about student setting them user IDs on 'id' url field; but when you try to access some other user type settings its ID on 'id' url field it will not let you access it. url to test: /campus_example/item/?type=user&id=<SET_USER_ID_HERE>&value_types=info
@@ -102,7 +90,8 @@ class ItemView(ItemTypeView):
             created_item_fields = []
             for field in list_item_fields:
                 created_item_fields.append(getattr(created_item, field))
-            created_item_list_fields = get_items_list(request, app, self.user_type, self.item_type, list_item_fields, 
+            created_item_list_fields = get_items_list(
+                self, request, app, self.item_type, list_item_fields, 
                 self.item_model.objects.using(app).filter(id=created_item.id))            
             # TODO: Add specific items updating logic (will require to transfer table generation logic from admin.html to a javascript file)
             return ok(created_item_fields=created_item_list_fields)
@@ -121,8 +110,9 @@ class ItemView(ItemTypeView):
             fields = list(item_type_fields.keys())
             item_fields = self.item_model.objects.using(app).values(*fields).get(id=item_id)
         elif value_types == "info":
-            item_fields = get_items_list(request, app, self.user_type, self.item_type,
-                list(self.item_public_info["fields"].keys()), self.item_model.objects.using(app).filter(id=item_id))
+            item_fields = get_items_list(self, request, app, self.item_type,
+                list(self.item_public_info["fields"].keys()),
+                self.item_model.objects.using(app).filter(id=item_id))
         else:
             return error(400, f"'{value_types}' value for '{VALUE_TYPES_FIELD_NAME}' field is not allowed.")
         return ok(item_fields=item_fields)

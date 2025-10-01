@@ -7,10 +7,7 @@ class AddressAppElm(AppElm):
                 "model": f"{app_name}.Address"
             },
             "public": {
-                "title": {
-                    "singular": "Dirección de lugar físico"  ,
-                    "plural"  : "Direcciones de lugares físicos",
-                },
+                "title": ["Dirección de lugar físico", "Direcciones de lugares físicos"],
                 "list_item_fields": ["street_address1", "city", "state_province"],
                 "fields": {
                     "street_address1":[REQ   , "str", "Dirección"],

@@ -1,14 +1,10 @@
 import { CommonFormInput, RelatedItemFormInput } from "../../admin/form.js";
 import { ITM_MGMT_WIN_TYPE_VIEW_ITM } from "../../admin/manageItem.js";
 import { createElement, createSectionToggleButton, createText, getByPosition } from "../utils/dom/dom.js";
+import { FIELD_PARAM_EXTRA_INFO, FIELD_PARAM_IS_REQ, FIELD_PARAM_TITLE, FIELD_PARAM_TYPE } from "./fields.js";
 import { getItemsInfo } from "./itemsInfo.js";
 import { ITEM_TYPE_X_DOM_ELM_TYPE } from "./itemTypes.js";
 import { sendMessage } from "./messaging.js";
-
-export const FIELD_PARAM_IS_REQ = 0,
-    FIELD_PARAM_TYPE     = 1,
-    FIELD_PARAM_TITLE    = 2,
-    FIELD_PARAM_EXTRA_INFO = 3;
 
 async function createFormSection(parent, buttonMessage, formContentInitializer, className) {
     const formSectionContainer = createElement(parent, "div",`${className}_container`);

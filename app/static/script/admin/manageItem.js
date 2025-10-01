@@ -1,3 +1,4 @@
+import { TITLE_SINGULAR } from "../global/app/fields.js";
 import { ItemFieldInfo } from "../global/app/itemFieldInfo.js";
 import { getItemsInfo } from "../global/app/itemsInfo.js";
 import { sendItemCreationMessage, sendItemUpdateMessage, sendMessage } from "../global/app/messaging.js";
@@ -27,7 +28,7 @@ async function initItemManagementWindow(itemWindowInfo, itemTypesInfo, itemType,
         exitButton.onclick = ()=>{
             itemWindowInfo.close();
         };
-        createText(itemWindow, "div", itemTypeInfo["title"]["singular"], `${itemMgmtWindowInfo.className}_title`);
+        createText(itemWindow, "div", itemTypeInfo["title"][TITLE_SINGULAR], `${itemMgmtWindowInfo.className}_title`);
     }
     const form = new Form();
     const itemId = itemMgmtWindowInfo.itemId;

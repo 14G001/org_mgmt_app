@@ -8,10 +8,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.AddressXOrganization"
         },
         "public": {
-            "title": {
-                "singular": "Sede de organización"  ,
-                "plural"  : "Sedes de organizaciones",
-            },
+            "title": ["Sede de organización", "Sedes de organizaciones"],
             "list_item_fields": ["address", "organization"],
             "fields": {
                 "address"     :[REQ, "address"     , "Dirección"   ],
@@ -24,10 +21,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.OrganizationType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de organización"   ,
-                "plural"  : "Tipos de organizaciones",
-            },
+            "title": ["Tipo de organización", "Tipos de organizaciones"],
             "list_item_fields": ["value"],
             "fields": {
                 "value": [REQ, "str", "Tipo"],
@@ -39,10 +33,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.Organization"
         },
         "public": {
-            "title": {
-                "singular": "Organización"  ,
-                "plural"  : "Organizaciones",
-            },
+            "title": ["Organización", "Organizaciones"],
             "list_item_fields": ["name", "type"],
             "fields": {
                 "type": [REQ, "organization_type", "Tipo"  ],
@@ -55,10 +46,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.PersonRoleType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de rol de persona"    ,
-                "plural"  : "Tipos de roles de personas",
-            },
+            "title": ["Tipo de rol de persona", "Tipos de roles de personas"],
             "list_item_fields": ["value"],
             "fields": {
                 "value": [REQ, "str", "Tipo"],
@@ -70,10 +58,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.PersonRole"
         },
         "public": {
-            "title": {
-                "singular": "Rol de persona" ,
-                "plural"  : "Roles de personas",
-            },
+            "title": ["Rol de persona", "Roles de personas"],
             "list_item_fields": ["person", "type", "start_date", "end_date"],
             "fields": {
                 "type"      :[REQ   , "person_role_type", "Tipo"],
@@ -89,10 +74,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "list_item_sort_criteria": ["national_id"],
         },
         "public": {
-            "title": {
-                "singular": "Persona" ,
-                "plural"  : "Personas",
-            },
+            "title": ["Persona", "Personas"],
             "list_item_fields"  : ["national_id", "name", "surname"],
             "fields": {
                 "national_id":[REQ  , "str"    , "DNI"       ],
@@ -107,10 +89,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.Currency"
         },
         "public": {
-            "title": {
-                "singular": "Moneda" ,
-                "plural"  : "Monedas",
-            },
+            "title": ["Moneda", "Monedas"],
             "list_item_fields": ["code"],
             "fields": {
                 "code":[REQ, "str", "Código"],
@@ -123,10 +102,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "list_item_sort_criteria": ["-date"],
         },
         "public": {
-            "title": {
-                "singular": "Donación de dinero"  ,
-                "plural"  : "Donaciones de dinero",
-            },
+            "title": ["Donación de dinero", "Donaciones de dinero"],
             "list_item_fields": ["date","person","amount","currency"],
             "fields": {
                 "person"  :[REQ, "person"  , "Persona"],
@@ -141,10 +117,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.ObjectType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de object" ,
-                "plural"  : "Tipos de objeto",
-            },
+            "title": ["Tipo de object" ,"Tipos de objeto"],
             "list_item_fields": ["value"],
             "fields": {
                 "value":[REQ, "str", "Tipo"],
@@ -156,10 +129,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.Object"
         },
         "public": {
-            "title": {
-                "singular": "Objeto" ,
-                "plural"  : "Objetos",
-            },
+            "title": ["Objeto", "Objetos"],
             "list_item_fields": ["id", "type"],
             "fields": {
                 "type":[REQ, "object_type", "Tipo de objeto"],
@@ -174,10 +144,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "list_item_sort_criteria": ["-date"],
         },
         "public": {
-            "title": {
-                "singular": "Donación de objeto" ,
-                "plural"  : "Donación de objetos",
-            },
+            "title": ["Donación de objeto", "Donación de objetos"],
             "list_item_fields": ["date", "donor", "object"],
             "fields": {
                 "object":[REQ, "object", "Objeto" ],
@@ -191,10 +158,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.ObjectPassType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de transferencia de objeto" ,
-                "plural"  : "Tipos de transferencias de objetos",
-            },
+            "title": ["Tipo de transferencia de objeto", "Tipos de transferencias de objetos"],
             "list_item_fields": ["value"],
             "fields": {
                 "value": [REQ, "str", "Tipo"],
@@ -206,10 +170,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.ObjectPass"
         },
         "public": {
-            "title": {
-                "singular": "Transferencia de objeto"  ,
-                "plural"  : "Transferencias de objetos",
-            },
+            "title": ["Transferencia de objeto", "Transferencias de objetos"],
             "list_item_fields": ["object", "new_person", "datetime", "type"],
             "fields": {
                 "object"    :[REQ, "object"  , "Objeto"      ],
@@ -224,10 +185,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "model": "org_mgmt_app.ServiceType"
         },
         "public": {
-            "title": {
-                "singular": "Tipo de servicio" ,
-                "plural"  : "Tipos de servicios",
-            },
+            "title": ["Tipo de servicio", "Tipos de servicios"],
             "list_item_fields": ["value"],
             "fields": {
                 "value":[REQ, "str", "Tipo"],
@@ -240,10 +198,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "list_item_sort_criteria": ["-date"],
         },
         "public": {
-            "title": {
-                "singular": "Donación de servicio" ,
-                "plural"  : "Donaciones de servicios",
-            },
+            "title": ["Donación de servicio", "Donaciones de servicios"],
             "list_item_fields": ["date","type","donor","service_start_date"],
             "fields": {
                 "type" :[REQ, "service_type", "Tipo de servicio"],
@@ -262,10 +217,7 @@ ORG_MGMT_APP_ELMS_INFO = [
             "list_item_sort_criteria": ["-date"],
         },
         "public": {
-            "title": {
-                "singular": "Gasto" ,
-                "plural"  : "Gastos",
-            },
+            "title": ["Gasto", "Gastos"],
             "list_item_fields": ["currency", "amount", "date"],
             "fields": {
                 "currency":[REQ, "currency", "Moneda"],
